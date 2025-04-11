@@ -7,6 +7,7 @@ import {userRouter} from "./routes/user-router";
 import {showRouter} from "./routes/show-router";
 import {artistRouter} from "./routes/artist-router";
 import {friendRequestRouter} from "./routes/friendReq-router";
+import {ensureTablesCreated} from "./database/db";
 
 
 const app = express();
@@ -26,7 +27,7 @@ app.use("/api/artists", artistRouter);
 app.use("/api/friendReqs", friendRequestRouter);
 
 // initialize the database with Dummy Data
-
+await ensureTablesCreated();
 
 // start http server
 app.listen(8000, function () {
