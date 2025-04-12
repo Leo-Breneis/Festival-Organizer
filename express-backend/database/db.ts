@@ -20,7 +20,7 @@ export async function ensureTablesCreated() {
         CREATE TABLE IF NOT EXISTS Users (
             name VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
             password VARCHAR(255) NOT NULL,
-            freinds INTEGER[],
+            friends VARCHAR(255)[],
             profilePicture BYTEA
         )
     `);
@@ -39,14 +39,14 @@ export async function ensureTablesCreated() {
             beginTime TIMESTAMP NOT NULL,
             endTime TIMESTAMP NOT NULL,
             stage VARCHAR(255) NOT NULL,
-            visitors INTEGER[]
+            visitors VARCHAR(255)[]
         )
     `);
     await client.query(`
         CREATE TABLE IF NOT EXISTS FriendRequests (
             id SERIAL PRIMARY KEY UNIQUE,
             fromUser VARCHAR(255) REFERENCES Users(name) ON DELETE CASCADE,
-            toUSer VARCHAR(255) REFERENCES Users(name) ON DELETE CASCADE,
+            toUser VARCHAR(255) REFERENCES Users(name) ON DELETE CASCADE,
             accepted BOOLEAN DEFAULT FALSE
         )
     `);

@@ -1,7 +1,7 @@
 export type User = {
     name: string; // Primary Key (PK)
     password: string;
-    friends: number[];
+    friends: User[];
     profilePicture: Blob;
 };
 

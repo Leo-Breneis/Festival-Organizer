@@ -1,13 +1,21 @@
 import {getPool} from './db'
 import {QueryResult, QueryResultRow} from "pg";
+import {User} from "../model/model";
 
-export function getAllFromTable<T extends QueryResultRow>(table: 'Users' | 'Artists' | 'Shows') {
-    return getPool().query<T>(`SELECT *
-                               FROM ${table}`)
+export async function getAllFromTable<T extends QueryResultRow>(table: 'Users' | 'Artists' | 'Shows' | 'FriendRequests') {
+    return (await getPool().query<T>(`SELECT * FROM ${table}`)).rows
 }
 
+export async function getFormTableById<T extends QueryResultRow>(table: 'Users' | 'Artists' | 'Shows' | 'FriendRequests', id: number) {
+    const result = await getPool().query<T>(`select * from ${table} where ${table}.id = $1`, [id])
+    return result.rows;
+}
+export async function getFormTableByName<T extends QueryResultRow>(table: 'Users' | 'Artists' | 'Shows' | 'FriendRequests', name: string) {
+    const result = await getPool().query<T>(`select * from ${table} where ${table}.name = $1`, [name])
+    return result.rows;
+}
 
-export async function insertIntoTable(table: 'Users' | 'Artists' | 'Shows' | 'FriendRequest', values: any[]): Promise<QueryResult<any> | string> {
+export async function insertIntoTable(table: 'Users' | 'Artists' | 'Shows' | 'FriendRequest', values: any[]): Promise<QueryResult | string> {
     let queryString: string;
     switch (table) {
         case 'Users':
@@ -37,4 +45,9 @@ export async function deleteById(table: 'Users' | 'Artists' | 'Shows' | 'FriendR
     return await getPool().query(`DELETE
                                   FROM ${table}
                                   WHERE ${table}.id = $1`, [id]);
+}
+export async function deleteByName(table: 'Users' | 'Artists' | 'Shows' | 'FriendRequest', name: string) {
+    return await getPool().query(`DELETE
+                                  FROM ${table}
+                                  WHERE ${table}.name = $1`, [name]);
 }

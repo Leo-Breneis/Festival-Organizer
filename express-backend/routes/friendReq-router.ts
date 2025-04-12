@@ -14,7 +14,7 @@ friendRequestRouter.post('/', async (req, res) => {
 
 });
 
-friendRequestRouter.put('/:id', async (req, res) => {
+friendRequestRouter.patch('/:id', async (req, res) => {
 
 });
 

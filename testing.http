@@ -6,7 +6,7 @@
 ### GET users
 GET {{user-url}}
 ### GET user by username
-GET {{user-url}}/hallo
+GET {{user-url}}/pipo
 ### POST user
 POST {{user-url}}
 Content-Type: application/json
