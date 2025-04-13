@@ -7,15 +7,14 @@ export type User = {
 
 export type Show = {
     id: number;
+    artistId: number; // Foreign Key (FK) referencing an artist
     beginTime: Date;
     endTime: Date;
     stage: string;
-    artistId: number; // Foreign Key (FK) referencing an artist
     visitors: User[]; // Foreign Key (FK) referencing users
 };
 
 export type Artist = {
-    id: number;
     name: string;
     profilePicture?: Blob; // Optional profile picture
 };
