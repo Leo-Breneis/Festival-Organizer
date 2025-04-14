@@ -1,0 +1,54 @@
+<!--
+<nav class="navbar bg-gray-800 text-white p-4">
+    <ul class="flex space-x-4">
+      <li><a routerLink="/friends" routerLinkActive="active">Friends</a></li>
+      <li><a routerLink="/artists" routerLinkActive="active">Artists</a></li>
+      <li><a routerLink="/timetable" routerLinkActive="active">Timetable</a></li>
+    </ul>
+</nav>
+-->
+<nav class="bg-primary-600 flex justify-around items-center bg-cyan-400 text-black">
+  <ul class="flex space-x-10">
+    <!-- Friends -->
+    <li
+    class="flex flex-col items-center justify-center w-16 h-16 rounded-full"
+    routerLink="/friends"
+    routerLinkActive="router-link-active"
+  >
+    <img
+      [src]="isActive('/friends') ? 'assets/icons/friends-filled.svg' : 'icons/friends-outline.svg'"
+      alt="Friends Icon"
+      class="w-6 h-6"
+    />
+    <span class="text-xs">Friends</span>
+  </li>
+
+  <!-- Artists -->
+  <li
+    class="flex flex-col items-center justify-center w-16 h-16 rounded-full"
+    routerLink="/artists"
+    routerLinkActive="router-link-active"
+  >
+    <img
+      [src]="isActive('/artists') ? 'icons/artists-filled.svg' : 'icons/artists-outline.svg'"
+      alt="Artists Icon"
+      class="w-6 h-6"
+    />
+    <span class="text-xs">Artists</span>
+  </li>
+
+  <!-- Timetable -->
+  <li
+    class="flex flex-col items-center justify-center w-16 h-16 rounded-full"
+    routerLink="/timetable"
+    routerLinkActive="router-link-active"
+  >
+    <img
+      [src]="isActive('/timetable') ? 'icons/timetable-filled.svg' : 'icons/timetable-outline.svg'"
+      alt="Timetable Icon"
+      class="w-6 h-6"
+    />
+    <span class="text-xs">Timetable</span>
+  </li>
+</ul>
+</nav>

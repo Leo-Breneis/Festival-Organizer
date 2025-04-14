@@ -1,0 +1,34 @@
+.timetable-container {
+    margin: 0 auto;
+    max-width: 1200px;
+    font-family: sans-serif;
+  }
+  
+  .timetable-header {
+    background-color: #f8f9fa;
+  }
+  
+  .background-grid {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .events-overlay {
+    z-index: 2;
+  }
+  
+  .event {
+    /* Ensure events stand out above background cells */
+    overflow: hidden;
+    /* Optionally add rounded corners, shadow, etc. */
+    border-radius: 4px;
+  }
+
+
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
