@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 export type Artist = {
   name: string;
   img: string;
-  commonFriends: Friend[];
+  commonFriends?: Friend[];
 };
 
 export type Friend = {
@@ -29,17 +29,14 @@ export class ArtistService {
         {
           name: 'To the Grave',
           img: 'artists/paleface.jpg',
-          commonFriends: [],
         },
         {
           name: 'Whitechapel',
           img: 'artists/paleface.jpg',
-          commonFriends: [],
         },
         {
           name: 'Ghostkid',
           img: 'artists/paleface.jpg',
-          commonFriends: [],
         },
         {
           name: 'Within Destruction',
@@ -87,12 +84,10 @@ export class ArtistService {
         {
           name: 'August Burns Red',
           img: 'artists/paleface.jpg',
-          commonFriends: [],
         },
         {
           name: 'DJ Hashbang',
           img: 'artists/paleface.jpg',
-          commonFriends: [],
         },
         {
           name: 'Lil C',
@@ -115,17 +110,14 @@ export class ArtistService {
         {
           name: 'Make Them Suffer',
           img: 'artists/paleface.jpg',
-          commonFriends: [],
         },
         {
           name: 'Novelists',
           img: 'artists/paleface.jpg',
-          commonFriends: [],
         },
         {
           name: 'Sleep Token',
           img: 'artists/paleface.jpg',
-          commonFriends: [],
         },
         {
           name: 'Vulvodynia',
@@ -144,7 +136,6 @@ export class ArtistService {
         {
           name: 'Thy Art Is Murder',
           img: 'artists/paleface.jpg',
-          commonFriends: [],
         },
       ];
     }

@@ -1,15 +1,43 @@
 <div class="flex flex-col h-screen">
-    <div class="flex items-center justify-center p-2 pb-4 shadow-sm z-10">
-      <h1 class="text-2xl font-bold mt-2">Friends</h1>
+    <!-- Fixed Title -->
+    <div class="flex items-center justify-center p-2 pb-4 shadow-lg z-10 flex-shrink-0 bg-white">
+      <h1 class="text-2xl font-bold mt-2">Artists</h1>
     </div>
-
-    <div class="flex flex-col">
-        <!--@for (artist of getFriends(); track $index) {
-            <div></div>
-        }-->
-    </div>
-
-
-    <app-navbar class="fixed bottom-0 w-full h-16"></app-navbar>
-  </div>
   
+    <!-- Scrollable Artist List -->
+    <div class="flex flex-col flex-grow overflow-y-auto relative pb-16">
+      @for (friend of getFriends(); track $index) {
+        <div class="flex flex-row items-center p-4 m-2 bg-white rounded-lg shadow-md">
+          <!-- Artist Image -->
+          <img src="{{ friend.img }}" alt="{{ friend.name }}" class="w-16 h-16 rounded-full mr-4">
+          
+          <!-- Artist Info -->
+          <div class="flex flex-col flex-grow">
+            <h2 class="text-lg font-bold">{{ friend.name }}</h2>
+            
+            <!-- Common Friends -->
+            @if(friend.commonArtists && friend.commonArtists.length > 0) {
+              <div
+                class="flex flex-row mt-2 relative overflow-x-auto scrollbar-hide flex-shrink-0"
+                style="justify-content: flex-start; align-items: center;"
+              >
+                @for(artist of friend.commonArtists; track $index) {
+                  <div class="flex-shrink-0 flex -ml-2 first:ml-0">
+                    <img
+                      [src]="artist.img"
+                      class="h-6 w-6 rounded-full object-cover border-none"
+                      alt="Friend Image"
+                      style="transform: translateZ(0); backface-visibility: hidden;"
+                    />
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  
+    <!-- Fixed Navbar -->
+    <app-navbar class="fixed bottom-0 w-full h-16 flex-shrink-0"></app-navbar>
+  </div>

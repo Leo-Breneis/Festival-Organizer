@@ -99,7 +99,7 @@
           class="flex flex-row m-2 relative overflow-x-auto scrollbar-hide flex-shrink-0 mt-auto"
           style="justify-content: flex-start; align-items: flex-end;"
           >
-          @for(friend of act.friends; track friend) {
+          @for(friend of act.friends; track $index) {
           <div class="flex-shrink-0 flex -ml-2 first:ml-0">
             <img
               [src]="friend.img"

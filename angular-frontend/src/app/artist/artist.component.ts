@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { ArtistService, Artist, Friend } from '../artists.service';
 
-
 @Component({
   selector: 'app-artist',
   standalone: true,
