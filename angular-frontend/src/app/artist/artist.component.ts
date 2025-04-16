@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from "../navbar/navbar.component";
+import { ArtistService, Artist, Friend } from '../artists.service';
+
 
 @Component({
   selector: 'app-artist',
@@ -10,4 +12,9 @@ import { NavbarComponent } from "../navbar/navbar.component";
 })
 export class ArtistComponent {
 
+  constructor(private artistService: ArtistService) {}
+
+  getArtists(): Artist[] {
+    return this.artistService.getAllArtists();
+  }
 }

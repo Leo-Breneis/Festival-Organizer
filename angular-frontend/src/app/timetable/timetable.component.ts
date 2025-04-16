@@ -50,11 +50,6 @@ export class TimetableComponent {
     this.days.forEach((day) => (day.active = day.id === id));
   }
 
-  isLongAct(act: Act): boolean {
-    const durationMinutes = (act.endTime.getTime() - act.beginTime.getTime()) / 60000;
-    return durationMinutes >= 90;
-  }
-
   picStillFits(act: Act): boolean {
     let totalRows = this.getRowSpan(act) / this.intervalsPerHour * 4; // Convert total rows to hours the to 15 mins
     let usedRows = 2; // Assume the title and time use 3 rows (adjust as needed)
@@ -63,6 +58,10 @@ export class TimetableComponent {
     }
     console.log("totalRows: ", totalRows + "  usedRows: ", usedRows + " act: ", act.name);
     return totalRows > usedRows; // Check if there's space left for the picture
+  }
+  
+  sliceText(text: string, start: number, end: number): string {
+    return text.length > end ? text.slice(start, end) + '...' : text;
   }
 }
 

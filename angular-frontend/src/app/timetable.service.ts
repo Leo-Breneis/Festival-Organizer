@@ -145,12 +145,24 @@ export class TimetableService {
           beginTime: new Date('2023-10-01T11:00:00'),
           endTime: new Date('2023-10-01T12:00:00'),
           artistImg: 'artists/paleface.jpg',
+          friends: [
+            {
+              name: "friend3", 
+              img: 'friends/Friend3.jpg'
+            }, 
+          ],
         },
         {
           name: 'Parkway Drive',
           beginTime: new Date('2023-10-01T12:30:00'),
           endTime: new Date('2023-10-01T14:00:00'),
           artistImg: 'artists/paleface.jpg',
+          friends: [
+            {
+              name: "friend3", 
+              img: 'friends/Friend3.jpg'
+            }, 
+          ],
         },
         {
           name: 'August Burns Red',

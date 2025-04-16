@@ -10,4 +10,9 @@ import { NavbarComponent } from "../navbar/navbar.component";
 })
 export class FriendsComponent {
 
+  /*
+  getFriends() : Friend[] {
+
+  }
+  */
 }
