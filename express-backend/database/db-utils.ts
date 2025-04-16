@@ -41,6 +41,7 @@ export async function insertIntoTable(table: 'Users' | 'Artists' | 'Shows' | 'Fr
 
 }
 
+
 export async function deleteById(table: 'Users' | 'Artists' | 'Shows' | 'FriendRequest', id: number) {
     return await getPool().query(`DELETE
                                   FROM ${table}
