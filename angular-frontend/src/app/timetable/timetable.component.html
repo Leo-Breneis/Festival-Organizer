@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-bold mt-2">Timetable</h1>
   </div>
   <div class="flex p-2 rounded-lg space-x-2 justify-center relative">
-    @for (day of days; track day.id) {
+    @for (day of days; track $index) {
     <div
       class="px-4 py-2 text-center font-bol rounded-lg cursor-pointer"
       [class.bg-primary-700]="day.active"
@@ -22,7 +22,7 @@
     [style.gridTemplateColumns]="'60px repeat(' + stages().length + ', 1fr)'"
   >
     <div></div>
-    @for (stage of stages(); track stage) {
+    @for (stage of stages(); track $index) {
     <div class="stage-header text-center p-2">
       {{ stage }}
     </div>
@@ -33,9 +33,9 @@
     <div
       class="background-grid grid relative"
       [style.gridTemplateColumns]="'60px repeat(' + stages().length + ', 1fr)'"
-      style="grid-template-rows: repeat(288, 10px)"
+      [style.gridTemplateRows]="'repeat(' + totalIntervals + ', 10px)'"
     >
-      @for (interval of getIntervals(); track interval) { @if (interval % 3 ===
+      @for (interval of getIntervals(); track $index) { @if (interval % 3 ===
       0) {
       <div
         class="time-label border-t border-gray-300 flex items-center justify-end pr-1"
@@ -44,68 +44,72 @@
         @if (interval % 12 === 0) {
         {{ interval / 12 }}:00 }
       </div>
-      @for (stage of stages(); track stage) {
+      @for (stage of stages(); track $index) {
       <div class="cell border-t border-l border-gray-300"></div>
       } } @else {
       <div class="time-label flex items-center justify-end pr-1">
         @if (interval % 12 === 0) {
         {{ interval / 12 }}:00 }
       </div>
-      @for (stage of stages(); track stage) {
+      @for (stage of stages(); track $index) {
       <div class="cell border-l border-gray-300"></div>
       } } }
+      
     </div>
+
+    <div
+      class="current-time-line bg-red-500 h-0.5 w-full absolute z-50"
+      [style.top.px]="currentTimePosition"
+    ></div>
 
     <div
       class="events-overlay inset-0 grid absolute"
       [style.gridTemplateColumns]="'60px repeat(' + stages().length + ', 1fr)'"
       style="grid-template-rows: repeat(288, 10px); pointer-events: none"
     >
-      @for (stage of stages(); track stage) { @for (act of getActs(stage); track
-      act.name) {
+      @for (stage of stages(); track $index) { 
+      @for (act of getActs(stage); track $index) {
       <div
         class="event bg-blue-500 border text-xs flex flex-col relative"
         [style.gridColumn]="stages().indexOf(stage) + 2"
         [style.gridRow]="getStartRow(act) + ' / span ' + getRowSpan(act)"
         style="pointer-events: auto"
       >
-      
-        @if (picStillFits(act)) {
-          <div
-            class="artist-image w-full h-24 bg-cover bg-center felx-grow flex-shrink"
-            [style.backgroundImage]="'url(' + act.artistImg + ')'"
-          ></div>
+        @if (act.artistImg && picStillFits(act)) {
+        <div
+          class="artist-image w-full h-24 bg-cover bg-center felx-grow flex-shrink"
+          [style.backgroundImage]="'url(' + act.artistImg + ')'"
+        ></div>
         }
         <div class="m-1 felx">
           <strong>{{ sliceText(act.name, 0, 30) }}</strong>
-          <br/>
+          <br />
           <small>
             {{ act.beginTime.getHours() }}:
             {{
-            act.beginTime.getMinutes() <= 9
-              ? "0" + act.beginTime.getMinutes()
-              : act.beginTime.getMinutes()
+              act.beginTime.getMinutes() <= 9
+                ? "0" + act.beginTime.getMinutes()
+                : act.beginTime.getMinutes()
             }}
             - {{ act.endTime.getHours() }}:
             {{
-            act.endTime.getMinutes() <= 9
-              ? "0" + act.endTime.getMinutes()
-              : act.endTime.getMinutes()
+              act.endTime.getMinutes() <= 9
+                ? "0" + act.endTime.getMinutes()
+                : act.endTime.getMinutes()
             }}
           </small>
         </div>
         @if(act.friends && act.friends.length > 0) {
-          <div
+        <div
           class="flex flex-row m-2 relative overflow-x-auto scrollbar-hide flex-shrink-0 mt-auto"
-          style="justify-content: flex-start; align-items: flex-end;"
-          >
+          style="justify-content: flex-start; align-items: flex-end"
+        >
           @for(friend of act.friends; track $index) {
           <div class="flex-shrink-0 flex -ml-2 first:ml-0">
             <img
               [src]="friend.img"
-              class="h-6 w-6 rounded-full object-cover border-none"
+              class="h-6 w-6 rounded-full object-cover border-none felx flex-shrink-0"
               alt="Friend Image"
-              style="transform: translateZ(0); backface-visibility: hidden;"
             />
           </div>
           }

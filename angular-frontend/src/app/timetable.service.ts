@@ -4,7 +4,7 @@ export type Act = {
   name: string;
   beginTime: Date;
   endTime: Date;
-  artistImg: string;
+  artistImg?: string;
   friends?: Friend[];
 };
 
@@ -26,7 +26,6 @@ export type Friend = {
 })
 export class TimetableService {
   getAllActs(stage: string): Act[] {
-    console.log('Getting acts for stage', stage);
     if (stage === 'Stage 1') {
       return [
         {
@@ -88,7 +87,7 @@ export class TimetableService {
         {
           name: 'Shadow of Intent',
           beginTime: new Date('2023-10-01T21:30:00'),
-          endTime: new Date('2023-10-01T22:30:00'),
+          endTime: new Date('2023-10-01T23:55:00'),
           artistImg: 'artists/paleface.jpg',
           friends: [
             {
@@ -198,7 +197,7 @@ export class TimetableService {
         {
           name: 'Fatal StageOverflow',
           beginTime: new Date('2023-10-01T22:00:00'),
-          endTime: new Date('2023-10-01T23:30:00'),
+          endTime: new Date('2023-10-01T23:45:00'),
           artistImg: 'artists/paleface.jpg',
           friends: [
             {

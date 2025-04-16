@@ -15,6 +15,34 @@ export class TimetableComponent {
   protected router = inject(Router);
   constructor(private timetableService: TimetableService) {}
 
+  currentTimePosition: number = 1;
+  private intervalId: any;
+
+  ngOnInit(): void {
+    this.updateCurrentTimeRow();
+    this.intervalId = setInterval(() => {
+      this.updateCurrentTimeRow();
+    }, 60000); // Update every minute
+  }
+  
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+  
+  private updateCurrentTimeRow(): void {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const totalMinutes = hours * 60 + minutes;
+  
+    // Each row represents 10 minutes, and each row is 10px tall
+    this.currentTimePosition = (totalMinutes / 5) * 10;
+  
+    console.log('Current Time Position (px):', this.currentTimePosition); // Debugging
+  }
+
   stages = signal<string[]>(['Stage 1', "Lil C's terminal", 'Stage 3']);
 
   days: Day[] = [
@@ -56,7 +84,6 @@ export class TimetableComponent {
     if(act.friends != null) {
       usedRows += 2; 
     }
-    console.log("totalRows: ", totalRows + "  usedRows: ", usedRows + " act: ", act.name);
     return totalRows > usedRows; // Check if there's space left for the picture
   }
   

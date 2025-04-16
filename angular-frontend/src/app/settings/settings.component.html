@@ -1,0 +1,51 @@
+<div class="settings-container p-4">
+    <h2 class="text-lg font-bold mb-4">Time Settings</h2>
+    <div class="mb-4">
+      <label for="start-time" class="block text-sm font-medium">Start Time (Hour):</label>
+      <input
+        id="start-time"
+        type="number"
+        [(ngModel)]="startTime"
+        (ngModelChange)="validateTime('startTime')"
+        class="border rounded p-2 w-full"
+      />
+    </div>
+    <div class="mb-4">
+      <label for="end-time" class="block text-sm font-medium">End Time (Hour):</label>
+      <input
+        id="end-time"
+        type="number"
+        [(ngModel)]="endTime"
+        (ngModelChange)="validateTime('endTime')"
+        class="border rounded p-2 w-full"
+      />
+    </div>
+  
+    @if(!isFullDay()) {
+    <div
+      class="bg-yellow-100 text-yellow-800 p-2 rounded mb-4"
+    >
+        <strong>Be advised!</strong>
+        <p> You currently have less than the full 24 hours 
+          on your timetable. You could miss something! </p>
+    </div>
+    }
+    
+    @if(isInvalidTimeRange()) {
+    <div
+        class="bg-red-300 text-red-800 p-2 rounded mb-4"
+    >
+        <strong>Error!</strong> 
+        <p> You currently have less than the full 1 hour or more than 24 hours
+            selected </p>
+    </div> 
+    }
+  
+    <button
+      (click)="saveSettings()"
+      [disabled]="isInvalidTimeRange()"
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+    >
+      Save
+    </button>
+  </div>
