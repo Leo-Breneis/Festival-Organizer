@@ -82,8 +82,13 @@ export class ArtistService {
           commonFriends: [{ name: 'friend3', img: 'friends/Friend3.jpg' }],
         },
         {
-          name: 'August Burns Red',
+          name: 'Paleface',
           img: 'artists/paleface.jpg',
+          commonFriends: [
+            { name: 'friend4', img: 'friends/Friend4.jpg' },
+            { name: 'friend2', img: 'friends/Friend2.jpg' },
+            { name: 'friend6', img: 'friends/Friend6.jpg' },
+          ],
         },
         {
           name: 'DJ Hashbang',
@@ -138,5 +143,18 @@ export class ArtistService {
           img: 'artists/paleface.jpg',
         },
       ];
+  
+    }
+
+    getArtist(id : string): Artist {
+      return {
+        name: 'PALEFACE SWISS THE REAL',
+        img: 'artists/paleface.jpg',
+        commonFriends: [
+          { name: 'friend4', img: 'friends/Friend4.jpg' },
+          { name: 'friend2', img: 'friends/Friend2.jpg' },
+          { name: 'friend6', img: 'friends/Friend6.jpg' },
+        ],
+      };
     }
 }

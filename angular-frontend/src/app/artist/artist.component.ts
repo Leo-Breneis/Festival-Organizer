@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { ArtistService, Artist, Friend } from '../artists.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-artist',
@@ -11,9 +12,14 @@ import { ArtistService, Artist, Friend } from '../artists.service';
 })
 export class ArtistComponent {
 
-  constructor(private artistService: ArtistService) {}
+  constructor(private artistService: ArtistService, private router : Router) {}
 
   getArtists(): Artist[] {
     return this.artistService.getAllArtists();
+  }
+
+  goToArtistDetail(artistName: string): void {
+    // Navigate to the artist detail page using the artist's name as the ID
+    this.router.navigate(['/artists', artistName]);
   }
 }

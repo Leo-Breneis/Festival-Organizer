@@ -1,0 +1,19 @@
+{
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "tailwindCSS.includeLanguages": {
+      "plaintext": "html",
+      "javascript": "javascript",
+      "typescript": "typescript",
+      "typescriptreact": "typescriptreact",
+      "html": "html",
+      "css": "css"
+    },
+    "tailwindCSS.experimental.classRegex": [
+      "tw`([^`]*)",
+      "tw=\"([^\"]*)",
+      "tw={\"([^\"}]*)",
+      "tw\\.\\w+`([^`]*)"
+    ]
+  }

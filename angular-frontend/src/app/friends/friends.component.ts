@@ -13,7 +13,9 @@ export class FriendsComponent {
 
   constructor(private friendsService : FriendsService) {}
 
+  
   getFriends() : Friend[] {
     return this.friendsService.getAllFriends(); 
   }
+
 }
