@@ -74,15 +74,16 @@
         [style.gridColumn]="stages().indexOf(stage) + 2"
         [style.gridRow]="getStartRow(act) + ' / span ' + getRowSpan(act)"
         style="pointer-events: auto"
+        (click)="goToActDetail(act.id)"
       >
-        @if (act.artistImg && picStillFits(act)) {
+        @if (act.artist.img && picStillFits(act)) {
         <div
           class="artist-image w-full h-24 bg-cover bg-center felx-grow flex-shrink"
-          [style.backgroundImage]="'url(' + act.artistImg + ')'"
+          [style.backgroundImage]="'url(' + act.artist.img + ')'"
         ></div>
         }
         <div class="m-1 felx">
-          <strong>{{ sliceText(act.name, 0, 30) }}</strong>
+          <strong>{{ sliceText(act.artist.name, 0, 30) }}</strong>
           <br />
           <small>
             {{ act.beginTime.getHours() }}:

@@ -90,6 +90,10 @@ export class TimetableComponent {
   sliceText(text: string, start: number, end: number): string {
     return text.length > end ? text.slice(start, end) + '...' : text;
   }
+
+  goToActDetail(id: string) {
+    this.router.navigate(['/acts', id]);
+  }
 }
 
 

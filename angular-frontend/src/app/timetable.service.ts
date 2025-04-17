@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Artist } from './artists.service';
 
 export type Act = {
-  name: string;
+  id: string;
   beginTime: Date;
   endTime: Date;
-  artistImg?: string;
+  artist: Artist;
   friends?: Friend[];
 };
 
@@ -29,251 +30,230 @@ export class TimetableService {
     if (stage === 'Stage 1') {
       return [
         {
-          name: 'Spiritbox',
+          id: 'eineid1',
           beginTime: new Date('2023-10-01T11:50:00'),
           endTime: new Date('2023-10-01T13:00:00'),
+          artist: {
+            name: 'Spiritbox',
+            img: 'artists/paleface.jpg',
+          },
           friends: [
-            {
-              name: "friend4", 
-              img: 'friends/Friend4.jpg'
-            },
-            {
-              name: "friend2", 
-              img: 'friends/Friend2.jpg'
-            },{
-              name: "friend6", 
-              img: 'friends/Friend6.jpg'
-            }, 
+            { name: "friend4", img: 'friends/Friend4.jpg' },
+            { name: "friend2", img: 'friends/Friend2.jpg' },
+            { name: "friend6", img: 'friends/Friend6.jpg' },
           ],
-          artistImg: 'artists/paleface.jpg',
         },
         {
-          name: 'To the Grave',
+          id: 'eineid2',
           beginTime: new Date('2023-10-01T13:35:00'),
           endTime: new Date('2023-10-01T14:30:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'To the Grave',
+            img: 'artists/paleface.jpg',
+          },
         },
         {
-          name: 'Whitechapel',
+          id: 'eineid3',
           beginTime: new Date('2023-10-01T16:00:00'),
           endTime: new Date('2023-10-01T16:30:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Whitechapel',
+            img: 'artists/paleface.jpg',
+          },
         },
         {
-          name: 'Ghostkid',
+          id: 'eineid4',
           beginTime: new Date('2023-10-01T17:00:00'),
           endTime: new Date('2023-10-01T19:00:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Ghostkid',
+            img: 'artists/paleface.jpg',
+          },
         },
         {
-          name: 'Within Destruction',
+          id: 'eineid5',
           beginTime: new Date('2023-10-01T20:00:00'),
           endTime: new Date('2023-10-01T21:00:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Within Destruction',
+            img: 'artists/paleface.jpg',
+          },
           friends: [
-            {
-              name: "friend4", 
-              img: 'friends/Friend4.jpg'
-            },
-            {
-              name: "friend2", 
-              img: 'friends/Friend2.jpg'
-            },{
-              name: "friend6", 
-              img: 'friends/Friend6.jpg'
-            }, 
-          ]
+            { name: "friend4", img: 'friends/Friend4.jpg' },
+            { name: "friend2", img: 'friends/Friend2.jpg' },
+            { name: "friend6", img: 'friends/Friend6.jpg' },
+          ],
         },
         {
-          name: 'Shadow of Intent',
+          id: 'eineid6',
           beginTime: new Date('2023-10-01T21:30:00'),
           endTime: new Date('2023-10-01T23:55:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Shadow of Intent',
+            img: 'artists/paleface.jpg',
+          },
           friends: [
-            {
-              name: "friend4", 
-              img: 'friends/Friend4.jpg'
-            },
-            {
-              name: "friend1", 
-              img: 'friends/Friend1.jpg'
-            },{
-              name: "friend5", 
-              img: 'friends/Friend5.jpg'
-            },
-            {
-              name: "friend4", 
-              img: 'friends/Friend4.jpg'
-            },
-            {
-              name: "friend2", 
-              img: 'friends/Friend2.jpg'
-            },{
-              name: "friend6", 
-              img: 'friends/Friend6.jpg'
-            }, 
-            {
-              name: "friend4", 
-              img: 'friends/Friend4.jpg'
-            },
-            {
-              name: "friend1", 
-              img: 'friends/Friend1.jpg'
-            },{
-              name: "friend5", 
-              img: 'friends/Friend5.jpg'
-            }, 
-            {
-              name: "friend1", 
-              img: 'friends/Friend1.jpg'
-            },
-            {
-              name: "friend6", 
-              img: 'friends/Friend6.jpg'
-            },{
-              name: "friend3", 
-              img: 'friends/Friend3.jpg'
-            }, 
-          ]
+            { name: "friend4", img: 'friends/Friend4.jpg' },
+            { name: "friend1", img: 'friends/Friend1.jpg' },
+            { name: "friend5", img: 'friends/Friend5.jpg' },
+            { name: "friend6", img: 'friends/Friend6.jpg' },
+            { name: "friend3", img: 'friends/Friend3.jpg' },
+          ],
         },
       ];
     } else if (stage === "Lil C's terminal") {
       return [
         {
-          name: 'Architects',
+          id: 'eineid7',
           beginTime: new Date('2023-10-01T11:00:00'),
           endTime: new Date('2023-10-01T12:00:00'),
-          artistImg: 'artists/paleface.jpg',
-          friends: [
-            {
-              name: "friend3", 
-              img: 'friends/Friend3.jpg'
-            }, 
-          ],
+          artist: {
+            name: 'Architects',
+            img: 'artists/paleface.jpg',
+          },
+          friends: [{ name: "friend3", img: 'friends/Friend3.jpg' }],
         },
         {
-          name: 'Parkway Drive',
+          id: 'eineid8',
           beginTime: new Date('2023-10-01T12:30:00'),
           endTime: new Date('2023-10-01T14:00:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Parkway Drive',
+            img: 'artists/paleface.jpg',
+          },
+          friends: [{ name: "friend3", img: 'friends/Friend3.jpg' }],
+        },
+        {
+          id: 'eineid9',
+          beginTime: new Date('2023-10-01T15:00:00'),
+          endTime: new Date('2023-10-01T15:30:00'),
+          artist: {
+            name: 'August Burns Red',
+            img: 'artists/paleface.jpg',
+          },
+        },
+        {
+          id: 'eineid10',
+          beginTime: new Date('2023-10-01T16:00:00'),
+          endTime: new Date('2023-10-01T18:00:00'),
+          artist: {
+            name: 'DJ Hashbang',
+            img: 'artists/paleface.jpg',
+          },
+        },
+        {
+          id: 'eineid11',
+          beginTime: new Date('2023-10-01T19:20:00'),
+          endTime: new Date('2023-10-01T21:50:00'),
+          artist: {
+            name: 'Lil C',
+            img: 'artists/paleface.jpg',
+          },
           friends: [
-            {
-              name: "friend3", 
-              img: 'friends/Friend3.jpg'
-            }, 
+            { name: "friend1", img: 'friends/Friend1.jpg' },
+            { name: "friend6", img: 'friends/Friend6.jpg' },
+            { name: "friend3", img: 'friends/Friend3.jpg' },
           ],
         },
         {
-          name: 'August Burns Red',
-          beginTime: new Date('2023-10-01T15:00:00'),
-          endTime: new Date('2023-10-01T15:30:00'),
-          artistImg: 'artists/paleface.jpg',
-        },
-        {
-          name: 'DJ Hashbang',
-          beginTime: new Date('2023-10-01T16:00:00'),
-          endTime: new Date('2023-10-01T18:00:00'),
-          artistImg: 'artists/paleface.jpg',
-        },
-        {
-          name: 'Lil C',
-          beginTime: new Date('2023-10-01T19:20:00'),
-          endTime: new Date('2023-10-01T21:50:00'),
-          artistImg: 'artists/paleface.jpg',
-          friends: [
-            {
-              name: "friend1", 
-              img: 'friends/Friend1.jpg'
-            },
-            {
-              name: "friend6", 
-              img: 'friends/Friend6.jpg'
-            },{
-              name: "friend3", 
-              img: 'friends/Friend3.jpg'
-            }, 
-          ]
-        },
-        {
-          name: 'Fatal StageOverflow',
+          id: 'eineid12',
           beginTime: new Date('2023-10-01T22:00:00'),
           endTime: new Date('2023-10-01T23:45:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Fatal StageOverflow',
+            img: 'artists/paleface.jpg',
+          },
           friends: [
-            {
-              name: "friend1", 
-              img: 'friends/Friend1.jpg'
-            },
-            {
-              name: "friend4", 
-              img: 'friends/Friend4.jpg'
-            },{
-              name: "friend3", 
-              img: 'friends/Friend3.jpg'
-            }, 
-          ]
+            { name: "friend1", img: 'friends/Friend1.jpg' },
+            { name: "friend4", img: 'friends/Friend4.jpg' },
+            { name: "friend3", img: 'friends/Friend3.jpg' },
+          ],
         },
       ];
     } else if (stage === 'Stage 3') {
       return [
         {
-          name: 'Make Them Suffer',
+          id: 'eineid13',
           beginTime: new Date('2023-10-01T13:00:00'),
           endTime: new Date('2023-10-01T13:30:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Make Them Suffer',
+            img: 'artists/paleface.jpg',
+          },
         },
         {
-          name: 'Novelists',
+          id: 'eineid14',
           beginTime: new Date('2023-10-01T14:30:00'),
           endTime: new Date('2023-10-01T15:00:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Novelists',
+            img: 'artists/paleface.jpg',
+          },
         },
         {
-          name: 'Sleep Token',
+          id: 'eineid15',
           beginTime: new Date('2023-10-01T15:00:00'),
           endTime: new Date('2023-10-01T15:30:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Sleep Token',
+            img: 'artists/paleface.jpg',
+          },
         },
         {
-          name: 'Vulvodynia',
+          id: 'eineid16',
           beginTime: new Date('2023-10-01T16:00:00'),
           endTime: new Date('2023-10-01T18:00:00'),
-          artistImg: 'artists/paleface.jpg',
-          friends: [
-            {
-              name: "friend2", 
-              img: 'friends/Friend2.jpg'
-            } 
-          ]
+          artist: {
+            name: 'Vulvodynia',
+            img: 'artists/paleface.jpg',
+          },
+          friends: [{ name: "friend2", img: 'friends/Friend2.jpg' }],
         },
         {
-          name: 'Fit for a King',
+          id: 'eineid17',
           beginTime: new Date('2023-10-01T19:30:00'),
           endTime: new Date('2023-10-01T20:20:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Fit for a King',
+            img: 'artists/paleface.jpg',
+          },
           friends: [
-            {
-              name: "friend2",
-              img: 'friends/Friend2.jpg'
-            },
-            {
-              name: "friend6",
-              img: 'friends/Friend6.jpg'
-            },{
-              name: "friend1",
-              img: 'friends/Friend1.jpg'
-            }, 
-          ]  
+            { name: "friend2", img: 'friends/Friend2.jpg' },
+            { name: "friend6", img: 'friends/Friend6.jpg' },
+            { name: "friend1", img: 'friends/Friend1.jpg' },
+          ],
         },
         {
-          name: 'Thy Art Is Murder',
+          id: 'eineid18',
           beginTime: new Date('2023-10-01T20:30:00'),
           endTime: new Date('2023-10-01T21:30:00'),
-          artistImg: 'artists/paleface.jpg',
+          artist: {
+            name: 'Thy Art Is Murder',
+            img: 'artists/paleface.jpg',
+          },
         },
       ];
     } else {
       return [];
+    }
+  }
+
+  getAct(id: string) : Act {
+    return {
+      id: 'eineid6',
+      beginTime: new Date('2023-10-01T21:30:00'),
+      endTime: new Date('2023-10-01T23:55:00'),
+      artist: {
+        name: 'Shadow of Intent',
+        img: 'artists/paleface.jpg',
+      },
+      friends: [
+        { name: "friend4", img: 'friends/Friend4.jpg' },
+        { name: "friend1", img: 'friends/Friend1.jpg' },
+        { name: "friend5", img: 'friends/Friend5.jpg' },
+        { name: "friend6", img: 'friends/Friend6.jpg' },
+        { name: "friend3", img: 'friends/Friend3.jpg' },
+      ],
     }
   }
 

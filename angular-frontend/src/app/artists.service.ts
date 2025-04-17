@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 export type Artist = {
   name: string;
   img: string;
-  liked: boolean;
+  liked?: boolean;
   commonFriends?: Friend[];
 };
 
