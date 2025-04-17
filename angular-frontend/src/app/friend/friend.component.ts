@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { FriendsService, Friend } from '../friends.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-friends',
@@ -11,7 +12,7 @@ import { FriendsService, Friend } from '../friends.service';
 })
 export class FriendComponent {
 
-  constructor(private friendsService : FriendsService) {}
+  constructor(private friendsService : FriendsService, private router : Router) {}
 
   getRequests() : Friend[] {
     return this.friendsService.getAllFriendRequests(); 
@@ -27,6 +28,10 @@ export class FriendComponent {
 
   rejectFriendRequest(friend: Friend) {
     this.friendsService.rejectFriendRequest(friend);
+  }
+
+  goToFriendDetail(friendName: string): void {
+    this.router.navigate(['/friend', friendName]);
   }
 
 }

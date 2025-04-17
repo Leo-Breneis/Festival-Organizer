@@ -1,1 +1,30 @@
-<p>friend-detail works!</p>
+<div class="flex flex-col h-screen">
+    <div class="flex items-center justify-center p-2 pb-4 shadow-lg z-10 flex-shrink-0 bg-white">
+      <h1 class="text-2xl font-bold mt-2">Friend</h1>
+    </div>
+  
+    <div class="flex flex-col flex-grow overflow-y-auto relative pb-16">
+      @if(friend) {
+        <div class="flex flex-col items-center m-4">
+            <img src="{{ friend.img }}" alt="{{ friend.name }}" class="w-[70%] rounded-3xl mb-4">
+            <h1 class="text-4xl font-bold text-center w-[80%]">{{ friend.name }}</h1>
+        </div>
+
+        <div class="flex flex-row items-center p-3 m-2 bg-white rounded-lg shadow-md border border-gray-200">
+          <div class="flex flex-col flex-grow">
+            <h2 class="text-lg font-bold">Common Friends</h2>
+            @for (artist of friend.commonArtists; track $index) {
+                <div class="flex flex-row items-center p-2 m-2 bg-white rounded-lg shadow-md border border-gray-100">
+                  <img src="{{ artist.img }}" alt="{{ artist.name }}" class="w-16 h-16 rounded-full mr-4 object-cover">
+                  
+                  <div class="flex flex-col flex-grow">
+                    <h2 class="text-lg font-bold">{{ artist.name }}</h2>
+                  </div>
+                </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+    <app-navbar class="fixed bottom-0 w-full h-16 flex-shrink-0"></app-navbar>
+  </div>

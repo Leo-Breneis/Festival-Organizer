@@ -67,4 +67,16 @@ export class FriendsService {
       // Logic to reject a friend request
       console.log(`Rejected friend request from ${friend.name}`);
     }
+
+    getArtist(id : string): Friend {
+          return {
+            name: 'Pipo',
+            img: 'friends/Friend1.jpg',
+            commonArtists: [
+              { name: 'Paleface', img: 'artists/paleface.jpg' },
+              { name: 'Heaven Shall Burn', img: 'artists/paleface.jpg' },
+              { name: 'To the Grave', img: 'artists/paleface.jpg' },
+            ],
+          };
+        }
 }

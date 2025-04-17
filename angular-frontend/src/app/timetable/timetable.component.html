@@ -29,7 +29,7 @@
     }
   </div>
 
-  <div class="timetable-body overflow-y-auto relative flex-1 pb-16 z-0">
+  <div class="timetable-body overflow-y-auto relative flex-1 pb-16 z-0 scrollbar-hide">
     <div
       class="background-grid grid relative"
       [style.gridTemplateColumns]="'60px repeat(' + stages().length + ', 1fr)'"
@@ -38,7 +38,7 @@
       @for (interval of getIntervals(); track $index) { @if (interval % 3 ===
       0) {
       <div
-        class="time-label border-t border-gray-300 flex items-center justify-end pr-1"
+        class="time-label border-t border-gray-300 flex items-center justify-end pr-1 "
         [class.border-t]="interval % 3 !== 0"
       >
         @if (interval % 12 === 0) {
