@@ -22,4 +22,9 @@ export class ArtistComponent {
     // Navigate to the artist detail page using the artist's name as the ID
     this.router.navigate(['/artists', artistName]);
   }
+
+  toggleLike(artist: any, event: Event): void {
+    event.stopPropagation(); // Prevent triggering the click on the parent div
+    artist.liked = !artist.liked;
+  }
 }

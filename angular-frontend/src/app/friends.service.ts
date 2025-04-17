@@ -44,4 +44,27 @@ export class FriendsService {
         },
       ]
     }
+
+    getAllFriendRequests(): Friend[] {
+      return [
+        {
+          name: 'Friend5',
+          img: 'friends/Friend5.jpg',
+        },
+        {
+          name: 'Friend6',
+          img: 'friends/Friend6.jpg',
+        },
+      ]
+    }
+
+    acceptFriendRequest(friend: Friend) {
+      // Logic to accept a friend request
+      console.log(`Accepted friend request from ${friend.name}`);
+    }
+
+    rejectFriendRequest(friend: Friend) {
+      // Logic to reject a friend request
+      console.log(`Rejected friend request from ${friend.name}`);
+    }
 }

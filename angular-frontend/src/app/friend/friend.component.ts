@@ -6,16 +6,27 @@ import { FriendsService, Friend } from '../friends.service';
   selector: 'app-friends',
   standalone: true,
   imports: [NavbarComponent],
-  templateUrl: './friends.component.html',
-  styleUrl: './friends.component.css'
+  templateUrl: './friend.component.html',
+  styleUrl: './friend.component.css'
 })
-export class FriendsComponent {
+export class FriendComponent {
 
   constructor(private friendsService : FriendsService) {}
 
-  
+  getRequests() : Friend[] {
+    return this.friendsService.getAllFriendRequests(); 
+  }
+
   getFriends() : Friend[] {
     return this.friendsService.getAllFriends(); 
+  }
+
+  acceptFriendRequest(friend: Friend) {
+    this.friendsService.acceptFriendRequest(friend);
+  }
+
+  rejectFriendRequest(friend: Friend) {
+    this.friendsService.rejectFriendRequest(friend);
   }
 
 }
