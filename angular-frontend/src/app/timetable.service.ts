@@ -5,6 +5,7 @@ export type Act = {
   id: string;
   beginTime: Date;
   endTime: Date;
+  going: boolean;
   artist: Artist;
   friends?: Friend[];
 };
@@ -33,6 +34,7 @@ export class TimetableService {
           id: 'eineid1',
           beginTime: new Date('2023-10-01T11:50:00'),
           endTime: new Date('2023-10-01T13:00:00'),
+          going: false,
           artist: {
             name: 'Spiritbox',
             img: 'artists/paleface.jpg',
@@ -47,6 +49,7 @@ export class TimetableService {
           id: 'eineid2',
           beginTime: new Date('2023-10-01T13:35:00'),
           endTime: new Date('2023-10-01T14:30:00'),
+          going: true,
           artist: {
             name: 'To the Grave',
             img: 'artists/paleface.jpg',
@@ -56,6 +59,7 @@ export class TimetableService {
           id: 'eineid3',
           beginTime: new Date('2023-10-01T16:00:00'),
           endTime: new Date('2023-10-01T16:30:00'),
+          going: false,
           artist: {
             name: 'Whitechapel',
             img: 'artists/paleface.jpg',
@@ -63,6 +67,7 @@ export class TimetableService {
         },
         {
           id: 'eineid4',
+          going: false,
           beginTime: new Date('2023-10-01T17:00:00'),
           endTime: new Date('2023-10-01T19:00:00'),
           artist: {
@@ -74,6 +79,7 @@ export class TimetableService {
           id: 'eineid5',
           beginTime: new Date('2023-10-01T20:00:00'),
           endTime: new Date('2023-10-01T21:00:00'),
+          going: false,
           artist: {
             name: 'Within Destruction',
             img: 'artists/paleface.jpg',
@@ -88,6 +94,7 @@ export class TimetableService {
           id: 'eineid6',
           beginTime: new Date('2023-10-01T21:30:00'),
           endTime: new Date('2023-10-01T23:55:00'),
+          going: true,
           artist: {
             name: 'Shadow of Intent',
             img: 'artists/paleface.jpg',
@@ -107,16 +114,27 @@ export class TimetableService {
           id: 'eineid7',
           beginTime: new Date('2023-10-01T11:00:00'),
           endTime: new Date('2023-10-01T12:00:00'),
+          going: false,
           artist: {
             name: 'Architects',
             img: 'artists/paleface.jpg',
           },
-          friends: [{ name: "friend3", img: 'friends/Friend3.jpg' }],
+          friends: [
+            { name: "friend3", img: 'friends/Friend3.jpg' },
+            { name: "friend4", img: 'friends/Friend4.jpg' },
+            { name: "friend1", img: 'friends/Friend1.jpg' },
+            { name: "friend5", img: 'friends/Friend5.jpg' },
+            { name: "friend6", img: 'friends/Friend6.jpg' },
+            { name: "friend1", img: 'friends/Friend1.jpg' },
+            { name: "friend6", img: 'friends/Friend6.jpg' },
+            { name: "friend3", img: 'friends/Friend3.jpg' },
+          ],
         },
         {
           id: 'eineid8',
           beginTime: new Date('2023-10-01T12:30:00'),
           endTime: new Date('2023-10-01T14:00:00'),
+          going: false,
           artist: {
             name: 'Parkway Drive',
             img: 'artists/paleface.jpg',
@@ -127,6 +145,7 @@ export class TimetableService {
           id: 'eineid9',
           beginTime: new Date('2023-10-01T15:00:00'),
           endTime: new Date('2023-10-01T15:30:00'),
+          going: false,
           artist: {
             name: 'August Burns Red',
             img: 'artists/paleface.jpg',
@@ -136,6 +155,7 @@ export class TimetableService {
           id: 'eineid10',
           beginTime: new Date('2023-10-01T16:00:00'),
           endTime: new Date('2023-10-01T18:00:00'),
+          going: false,
           artist: {
             name: 'DJ Hashbang',
             img: 'artists/paleface.jpg',
@@ -145,6 +165,7 @@ export class TimetableService {
           id: 'eineid11',
           beginTime: new Date('2023-10-01T19:20:00'),
           endTime: new Date('2023-10-01T21:50:00'),
+          going: false,
           artist: {
             name: 'Lil C',
             img: 'artists/paleface.jpg',
@@ -159,6 +180,7 @@ export class TimetableService {
           id: 'eineid12',
           beginTime: new Date('2023-10-01T22:00:00'),
           endTime: new Date('2023-10-01T23:45:00'),
+          going: false,
           artist: {
             name: 'Fatal StageOverflow',
             img: 'artists/paleface.jpg',
@@ -176,6 +198,7 @@ export class TimetableService {
           id: 'eineid13',
           beginTime: new Date('2023-10-01T13:00:00'),
           endTime: new Date('2023-10-01T13:30:00'),
+          going: false,
           artist: {
             name: 'Make Them Suffer',
             img: 'artists/paleface.jpg',
@@ -185,6 +208,7 @@ export class TimetableService {
           id: 'eineid14',
           beginTime: new Date('2023-10-01T14:30:00'),
           endTime: new Date('2023-10-01T15:00:00'),
+          going: false,
           artist: {
             name: 'Novelists',
             img: 'artists/paleface.jpg',
@@ -194,6 +218,7 @@ export class TimetableService {
           id: 'eineid15',
           beginTime: new Date('2023-10-01T15:00:00'),
           endTime: new Date('2023-10-01T15:30:00'),
+          going: true,
           artist: {
             name: 'Sleep Token',
             img: 'artists/paleface.jpg',
@@ -203,6 +228,7 @@ export class TimetableService {
           id: 'eineid16',
           beginTime: new Date('2023-10-01T16:00:00'),
           endTime: new Date('2023-10-01T18:00:00'),
+          going: true,
           artist: {
             name: 'Vulvodynia',
             img: 'artists/paleface.jpg',
@@ -213,6 +239,7 @@ export class TimetableService {
           id: 'eineid17',
           beginTime: new Date('2023-10-01T19:30:00'),
           endTime: new Date('2023-10-01T20:20:00'),
+          going: false,
           artist: {
             name: 'Fit for a King',
             img: 'artists/paleface.jpg',
@@ -227,6 +254,7 @@ export class TimetableService {
           id: 'eineid18',
           beginTime: new Date('2023-10-01T20:30:00'),
           endTime: new Date('2023-10-01T21:30:00'),
+          going: false,
           artist: {
             name: 'Thy Art Is Murder',
             img: 'artists/paleface.jpg',
@@ -243,6 +271,7 @@ export class TimetableService {
       id: 'eineid6',
       beginTime: new Date('2023-10-01T21:30:00'),
       endTime: new Date('2023-10-01T23:55:00'),
+      going: true,
       artist: {
         name: 'Shadow of Intent',
         img: 'artists/paleface.jpg',

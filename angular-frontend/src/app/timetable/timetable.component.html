@@ -5,9 +5,7 @@
   <div class="flex p-2 rounded-lg space-x-2 justify-center relative">
     @for (day of days; track $index) {
     <div
-      class="px-4 py-2 text-center font-bol rounded-lg cursor-pointer"
-      [class.bg-primary-700]="day.active"
-      [class.rounded-lg]="day.active"
+      class="px-4 py-2 text-center font-bol cursor-pointer rounded-xl {{ day.active ? 'bg-cyan-400' : 'bg-cyan-200' }}"
       (click)="selectDay(day.id)"
     >
       <p>{{ day.month }}</p>
@@ -29,16 +27,18 @@
     }
   </div>
 
-  <div class="timetable-body overflow-y-auto relative flex-1 pb-16 z-0 scrollbar-hide">
+  <div
+    class="timetable-body overflow-y-auto relative flex-1 pb-16 z-0 scrollbar-hide"
+  >
     <div
       class="background-grid grid relative"
       [style.gridTemplateColumns]="'60px repeat(' + stages().length + ', 1fr)'"
       [style.gridTemplateRows]="'repeat(' + totalIntervals + ', 10px)'"
     >
-      @for (interval of getIntervals(); track $index) { @if (interval % 3 ===
-      0) {
+      @for (interval of getIntervals(); track $index) { @if (interval % 3 === 0)
+      {
       <div
-        class="time-label border-t border-gray-300 flex items-center justify-end pr-1 "
+        class="time-label border-t border-gray-300 flex items-center justify-end pr-1"
         [class.border-t]="interval % 3 !== 0"
       >
         @if (interval % 12 === 0) {
@@ -54,7 +54,6 @@
       @for (stage of stages(); track $index) {
       <div class="cell border-l border-gray-300"></div>
       } } }
-      
     </div>
 
     <div
@@ -67,10 +66,10 @@
       [style.gridTemplateColumns]="'60px repeat(' + stages().length + ', 1fr)'"
       style="grid-template-rows: repeat(288, 10px); pointer-events: none"
     >
-      @for (stage of stages(); track $index) { 
+    @for (stage of stages(); track $index) { 
       @for (act of getActs(stage); track $index) {
       <div
-        class="event bg-blue-500 border text-xs flex flex-col relative"
+        class="event border text-xs flex flex-col relative {{ act.going ? 'bg-cyan-400' : 'bg-slate-400' }}"
         [style.gridColumn]="stages().indexOf(stage) + 2"
         [style.gridRow]="getStartRow(act) + ' / span ' + getRowSpan(act)"
         style="pointer-events: auto"
@@ -100,24 +99,25 @@
             }}
           </small>
         </div>
-        @if(act.friends && act.friends.length > 0) {
-        <div
-          class="flex flex-row m-2 relative overflow-x-auto scrollbar-hide flex-shrink-0 mt-auto"
-          style="justify-content: flex-start; align-items: flex-end"
-        >
-          @for(friend of act.friends; track $index) {
-          <div class="flex-shrink-0 flex -ml-2 first:ml-0">
-            <img
-              [src]="friend.img"
-              class="h-6 w-6 rounded-full object-cover border-none felx flex-shrink-0"
-              alt="Friend Image"
-            />
+          @if(act.friends && act.friends.length > 0) {
+          <div
+            class="flex flex-row m-2 relative overflow-x-auto scrollbar-hide flex-shrink-0 mt-auto"
+            style="justify-content: flex-start; align-items: flex-end"
+          >
+            @for(friend of act.friends; track $index) {
+            <div class="flex-shrink-0 flex -ml-2 first:ml-0">
+              <img
+                [src]="friend.img"
+                class="h-6 w-6 rounded-full object-cover border-none felx flex-shrink-0"
+                alt="Friend Image"
+              />
+            </div>
+            }
           </div>
           }
-        </div>
-        }
       </div>
-      } }
+      }
+    } 
     </div>
   </div>
   <app-navbar class="fixed bottom-0 w-full h-16"></app-navbar>
