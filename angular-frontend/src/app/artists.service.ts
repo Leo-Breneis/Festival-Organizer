@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Friend } from './friends.service';
 
 export type Artist = {
   name: string;
@@ -7,10 +8,6 @@ export type Artist = {
   commonFriends?: Friend[];
 };
 
-export type Friend = {
-  name: string;
-  img: string;
-};
 
 @Injectable({
   providedIn: 'root',

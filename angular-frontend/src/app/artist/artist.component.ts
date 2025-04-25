@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from "../navbar/navbar.component";
-import { ArtistService, Artist, Friend } from '../artists.service';
+import { ArtistService, Artist } from '../artists.service';
 import { Router } from '@angular/router';
 
 @Component({

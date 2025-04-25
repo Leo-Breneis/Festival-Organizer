@@ -1,4 +1,11 @@
 <div class="timetable-container flex flex-col h-screen">
+  <img
+    class="left-3 z-50 h-8 w-8 top-3 absolute"
+    (click)="toggleCollapse()"
+    src="{{ isCollapsed ? 'icons/collapse.svg' : 'icons/expand.svg' }}"
+  >
+
+  @if(!isCollapsed) {
   <div class="flex items-center justify-center p-2 pb-4 shadow-sm z-10">
     <h1 class="text-2xl font-bold mt-2">Timetable</h1>
   </div>
@@ -14,6 +21,7 @@
     </div>
     }
   </div>
+  }
 
   <div
     class="timetable-header grid relative"
@@ -22,7 +30,7 @@
     <div></div>
     @for (stage of stages(); track $index) {
     <div class="stage-header text-center p-2">
-      {{ stage }}
+      {{ stage.name }}
     </div>
     }
   </div>
@@ -66,18 +74,25 @@
       [style.gridTemplateColumns]="'60px repeat(' + stages().length + ', 1fr)'"
       style="grid-template-rows: repeat(288, 10px); pointer-events: none"
     >
-    @for (stage of stages(); track $index) { 
-      @for (act of getActs(stage); track $index) {
+    @for (stage of stages(); track $index) {
+      @for(act of stage.acts; track $index) {
       <div
         class="event border text-xs flex flex-col relative {{ act.going ? 'bg-cyan-400' : 'bg-slate-400' }}"
         [style.gridColumn]="stages().indexOf(stage) + 2"
         [style.gridRow]="getStartRow(act) + ' / span ' + getRowSpan(act)"
-        style="pointer-events: auto"
+        style="pointer-events: auto; z-index: 10;"
         (click)="goToActDetail(act.id)"
+        (touchstart)="startHold(act)"
+        (touchend)="clearHold()"
+        (touchcancel)="clearHold()"
+        (touchmove)="clearHold()"
+        (mousedown)="startHold(act)"
+        (mouseup)="clearHold()"
+        (mouseleave)="clearHold()"
       >
         @if (act.artist.img && picStillFits(act)) {
         <div
-          class="artist-image w-full h-24 bg-cover bg-center felx-grow flex-shrink"
+          class="artist-image w-[100%] h-24 bg-cover bg-center felx-grow flex-shrink rounded-lg"
           [style.backgroundImage]="'url(' + act.artist.img + ')'"
         ></div>
         }
@@ -117,7 +132,7 @@
           }
       </div>
       }
-    } 
+    }
     </div>
   </div>
   <app-navbar class="fixed bottom-0 w-full h-16"></app-navbar>

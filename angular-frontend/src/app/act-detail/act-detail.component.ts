@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Act, TimetableService } from '../timetable.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavbarComponent } from "../navbar/navbar.component";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-act-detail',
   standalone: true,
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, DatePipe],
   templateUrl: './act-detail.component.html',
   styleUrl: './act-detail.component.css'
 })

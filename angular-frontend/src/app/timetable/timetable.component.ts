@@ -1,5 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
-import { TimetableService, Act, Day } from '../timetable.service';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { TimetableService, Act, Day, Stage } from '../timetable.service';
 import { Router } from '@angular/router';
 import { NavbarComponent } from "../navbar/navbar.component";
 
@@ -15,10 +15,15 @@ export class TimetableComponent {
   protected router = inject(Router);
   constructor(private timetableService: TimetableService) {}
 
+  isCollapsed: boolean = false;
+  holdTimeout: any;
   currentTimePosition: number = 1;
   private intervalId: any;
 
+  stages = signal<Stage[]>([]); // Define a signal for acts
+
   ngOnInit(): void {
+    this.stages.set(this.timetableService.getAllActs());
     this.updateCurrentTimeRow();
     this.intervalId = setInterval(() => {
       this.updateCurrentTimeRow();
@@ -43,8 +48,6 @@ export class TimetableComponent {
     console.log('Current Time Position (px):', this.currentTimePosition); // Debugging
   }
 
-  stages = signal<string[]>(['Stage 1', "Lil C's terminal", 'Stage 3']);
-
   days: Day[] = [
     { id: "tag-1", month: "Mai", day: "1", weekday: "Do", active: false },
     { id: "tag-2", month: "Mai", day: "2", weekday: "Fr", active: true },
@@ -52,8 +55,8 @@ export class TimetableComponent {
     { id: "tag-4", month: "Mai", day: "4", weekday: "So", active: false },
   ];
 
-  getActs(stage: string): Act[] {
-    return this.timetableService.getAllActs(stage);
+  getAllActs(): Stage[] {
+    return this.timetableService.getAllActs();
   }
 
   intervalsPerHour = 12;
@@ -93,6 +96,52 @@ export class TimetableComponent {
 
   goToActDetail(id: string) {
     this.router.navigate(['/acts', id]);
+  }
+
+  startHold(act: Act): void {
+    let initialX: number;
+    let initialY: number;
+  
+    console.log('Hold action started:', act);
+
+    // Store the initial mouse position
+    const onMouseMove = (event: MouseEvent) => {
+      if (!initialX || !initialY) {
+        initialX = event.clientX;
+        initialY = event.clientY;
+      }
+  
+      // Cancel the hold if the mouse moves significantly
+      if (Math.abs(event.clientX - initialX) > 5 || Math.abs(event.clientY - initialY) > 5) {
+        this.clearHold();
+        document.removeEventListener('mousemove', onMouseMove);
+      }
+    };
+
+    // Start the hold timer
+    this.holdTimeout = setTimeout(() => {
+      act.going = !act.going;
+      this.timetableService.markAsGoing(act);
+      document.removeEventListener('mousemove', onMouseMove); // Remove the mousemove listener
+      console.log('Hold action triggered:', act);
+    }, 500); // 1 second hold duration
+  
+    // Add the mousemove listener
+    document.addEventListener('mousemove', onMouseMove);
+  }
+  
+  clearHold(): void {
+    clearTimeout(this.holdTimeout); // Clear the timeout if the hold is released
+    document.removeEventListener('mousemove', () => {}); // Remove the mousemove listener
+    console.log('Hold action cancelled');
+  }
+
+  onMouseDown(event: MouseEvent, act: Act): void {
+    console.log('MouseDown Event:', event);
+    console.log('Act:', act);
+  }
+  toggleCollapse(): void {
+    this.isCollapsed = !this.isCollapsed; // Toggle the collapsed state
   }
 }
 
