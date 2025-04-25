@@ -2,10 +2,29 @@
     <div class="flex items-center justify-center p-2 pb-4 shadow-lg z-10 flex-shrink-0">
       <h1 class="text-2xl font-bold mt-2">Friends</h1>
     </div>
-  
-    @if(getRequests().length != 0) {
+    <img
+    class="left-3 z-50 h-8 w-8 top-3 absolute"
+    (click)="toggleCollapse()"
+    src="{{ isCollapsed ? 'icons/collapse.svg' : 'icons/expand.svg' }}"
+  >
+    @if(getRequests().length != 0 && !isCollapsed) {
     <div class="flex flex-col items-center p-2 m-2 bg-pink-200 rounded-lg shadow-md border border-pink-300">
-      <div class="text-xl" >Friend Requests</div>
+      <div class="text-lg">Add Friend</div>
+      <div class="flex flex-row items-center p-3 m-2 bg-white rounded-lg shadow-md border border-gray-100 w-full">
+        <div class="flex flex-col flex-grow">
+          <input
+            type="text"
+            placeholder="Enter friend's name"
+            class="border border-gray-300 rounded-lg p-2 w-full"
+            [(ngModel)]="newFriendName"
+            (keyup.enter)="addFriend()">
+        </div>
+        
+        <div class="flex flex-row flex-grow justify-end space-x-2 mr-2">
+          <img (click)="addFriend()" src="icons/add.svg" alt="Add" class="w-6 h-6 cursor-pointer">  
+        </div>
+      </div>
+      <div class="text-lg" >Friend Requests</div>
       @for (request of getRequests(); track $index) {
         <div class="flex flex-row items-center p-3 m-2 bg-white rounded-lg shadow-md border border-gray-100 w-full">
           <img src="{{ request.img }}" alt="img" class="w-12 h-12 rounded-full mr-4 object-cover">
@@ -19,22 +38,11 @@
           </div>
         </div>
       }
-      <div></div>
+      
     </div>
     }
 
-    <div class="flex flex-col flex-grow overflow-y-auto relative pb-16">
-      <div class="flex flex-row items-center p-2 m-2 bg-pink-50 rounded-lg shadow-md border border-pink-100">
-        <img src="friends/nopic.png" alt="img" class="w-16 h-16 rounded-full mr-4 object-cover">
-        <input 
-          type="text" 
-          placeholder="username of friend"
-          class="flex-grow p-2 border border-gray-300 rounded-lg"
-        >
-        <img src="icons/here insert" alt="img" class="w-16 h-16 rounded-full mr-4 object-cover">  
-          
-      </div>
-
+    <div class="flex flex-col flex-grow overflow-y-auto relative pb-12">
       @for (friend of getFriends(); track $index) {
         <div 
           class="flex flex-row items-center p-2 m-2 bg-pink-50 rounded-lg shadow-md border border-pink-100"
@@ -66,5 +74,5 @@
         </div>
       }
     </div>
-    <app-navbar class="fixed bottom-0 w-full h-16 flex-shrink-0"></app-navbar>
+    <app-navbar class="fixed bottom-0 w-full h-12 flex-shrink-0"></app-navbar>
   </div>

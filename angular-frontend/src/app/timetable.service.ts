@@ -29,8 +29,8 @@ export type Stage = {
   providedIn: 'root',
 })
 export class TimetableService {
-  getAllActs(): Stage[] {
-    
+  getAllActs(day: Day): Stage[] {
+    if(day.id === "tag-2") {
     return [
       {
         name: 'Stage 1',
@@ -293,6 +293,9 @@ export class TimetableService {
       ]
       }
     ]
+  } else {
+    return []
+  }
   }
 
   getAct(id: string) : Act {
@@ -318,6 +321,15 @@ export class TimetableService {
 
   markAsGoing(act: Act) {
 
+  }
+
+  getAllDays() {
+    return [
+    { id: "tag-1", month: "Mai", day: "1", weekday: "Do", active: false },
+    { id: "tag-2", month: "Mai", day: "2", weekday: "Fr", active: true },
+    { id: "tag-3", month: "Mai", day: "3", weekday: "Sa", active: false },
+    { id: "tag-4", month: "Mai", day: "4", weekday: "So", active: false },
+    ];
   }
 
   constructor() {}

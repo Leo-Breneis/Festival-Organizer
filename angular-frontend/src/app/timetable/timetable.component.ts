@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { TimetableService, Act, Day, Stage } from '../timetable.service';
 import { Router } from '@angular/router';
 import { NavbarComponent } from "../navbar/navbar.component";
@@ -12,27 +12,68 @@ import { NavbarComponent } from "../navbar/navbar.component";
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent {
+  @ViewChild('timetableBody') timetableBody!: ElementRef<HTMLDivElement>;
+
   protected router = inject(Router);
-  constructor(private timetableService: TimetableService) {}
+  constructor(private timetableService: TimetableService, private cdr : ChangeDetectorRef) {}
 
   isCollapsed: boolean = false;
+  showInfo: boolean = false;
   holdTimeout: any;
   currentTimePosition: number = 1;
   private intervalId: any;
 
+  days = signal<Day[]>([]); // List of all days
+  activeDay = signal<Day | null>(null); // Currently selected day
+
   stages = signal<Stage[]>([]); // Define a signal for acts
 
   ngOnInit(): void {
-    this.stages.set(this.timetableService.getAllActs());
+    this.days.set(this.timetableService.getAllDays());
+    this.activeDay.set(this.days().find((day) => day.active) || this.days()[0]); // Set the first active day by default
+    this.stages.set(this.timetableService.getAllActs(this.activeDay()!));
     this.updateCurrentTimeRow();
     this.intervalId = setInterval(() => {
       this.updateCurrentTimeRow();
     }, 60000); // Update every minute
   }
+
+  ngAfterViewInit(): void {
+    this.scrollToCurrentTime();
+  }
   
+  scrollToCurrentTime(): void {
+    if (this.timetableBody) {
+      const container = this.timetableBody.nativeElement;
+      const scrollPosition = this.currentTimePosition - container.clientHeight / 2 + 50; // Adjust the scroll position to center the current time row (60 is just an about fixxer for navbar and stuff)
+      console.log('Scroll Position:', scrollPosition); // Debugging
+      container.scrollTo({
+        top: scrollPosition > 0 ? scrollPosition : 0,
+        behavior: 'smooth', // Smooth scrolling animation
+      });
+    }
+  }
+
   ngOnDestroy(): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);
+    }
+  }
+
+  selectDay(id: string): void {
+    const updatedDays = this.days().map((day) => ({
+      ...day,
+      active: day.id === id,
+    }));
+    this.days.set(updatedDays);
+    this.activeDay.set(updatedDays.find((day) => day.id === id) || null);
+
+    // Update stages for the newly selected day
+    if (this.activeDay()) {
+      this.stages.set(this.timetableService.getAllActs(this.activeDay()!));
+
+      this.cdr.detectChanges();
+      this.scrollToCurrentTime();
     }
   }
   
@@ -48,15 +89,8 @@ export class TimetableComponent {
     console.log('Current Time Position (px):', this.currentTimePosition); // Debugging
   }
 
-  days: Day[] = [
-    { id: "tag-1", month: "Mai", day: "1", weekday: "Do", active: false },
-    { id: "tag-2", month: "Mai", day: "2", weekday: "Fr", active: true },
-    { id: "tag-3", month: "Mai", day: "3", weekday: "Sa", active: false },
-    { id: "tag-4", month: "Mai", day: "4", weekday: "So", active: false },
-  ];
-
-  getAllActs(): Stage[] {
-    return this.timetableService.getAllActs();
+  getAllActs(day : Day): Stage[] {
+    return this.timetableService.getAllActs(day);
   }
 
   intervalsPerHour = 12;
@@ -75,10 +109,6 @@ export class TimetableComponent {
   getRowSpan(act: Act): number {
     const durationMinutes = (act.endTime.getTime() - act.beginTime.getTime()) / 60000;
     return Math.ceil(durationMinutes / 5);
-  }
-
-  selectDay(id: string) {
-    this.days.forEach((day) => (day.active = day.id === id));
   }
 
   picStillFits(act: Act): boolean {
@@ -140,8 +170,17 @@ export class TimetableComponent {
     console.log('MouseDown Event:', event);
     console.log('Act:', act);
   }
+
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed; // Toggle the collapsed state
+  }
+
+  toggleInfo(): void {
+    this.showInfo = !this.showInfo; // Toggle the visibility of the speech bubble
+  }
+
+  hasEvents(): boolean {
+    return this.stages().some(stage => stage.acts.length > 0);
   }
 }
 

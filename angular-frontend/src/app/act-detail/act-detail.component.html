@@ -3,7 +3,7 @@
       <h1 class="text-2xl font-bold mt-2">Act</h1>
     </div>
   
-    <div class="flex flex-col flex-grow overflow-y-auto relative pb-16">
+    <div class="flex flex-col flex-grow overflow-y-auto relative pb-12">
       @if(act) {
         <div class="flex flex-col items-center m-4">
             <img src="{{ act.artist.img }}" alt="{{ act.artist.name }}" class="w-[70%] rounded-3xl mb-4">
@@ -44,5 +44,5 @@
         </div>
       }
     </div>
-    <app-navbar class="fixed bottom-0 w-full h-16 flex-shrink-0"></app-navbar>
+    <app-navbar class="fixed bottom-0 w-full h-12 flex-shrink-0"></app-navbar>
   </div>

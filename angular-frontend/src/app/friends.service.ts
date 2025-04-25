@@ -78,5 +78,10 @@ export class FriendsService {
               { name: 'To the Grave', img: 'artists/paleface.jpg' },
             ],
           };
-        }
+    }
+
+    addFriend(name: string) {
+      // Logic to add a new friend
+      console.log(`Added new friend: ${name}`);
+    }
 }
