@@ -5,9 +5,14 @@
 
 
 .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, and Opera */
-  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.h-screen {
+  height: calc(var(--vh, 1vh) * 100); /* Fallback to 1vh if --vh is not set */
+} /* this is important to set the height of the screen even on mobile devices! otherwise it wont "respect" the top or bottom bar*/
