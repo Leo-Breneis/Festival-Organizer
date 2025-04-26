@@ -102,10 +102,13 @@
         (mouseup)="clearHold()"
       >
         @if (act.artist.img && picStillFits(act)) {
-        <div
-          class="artist-image w-[100%] pointer-events-none h-24 bg-cover bg-center felx-grow flex-shrink rounded-lg"
-          [style.backgroundImage]="'url(' + act.artist.img + ')'"
-        ></div>
+        <div class="p-1">
+        <img
+          [src]="act.artist.img"
+          class="artist-image pointer-events-none h-22 bg-cover bg-center felx-grow flex-shrink rounded-lg"
+          alt="Artist Image"
+        >
+        </div>
         }
         <div class="m-1 felx pointer-events-none">
           <strong>{{ sliceText(act.artist.name, 0, 30) }}</strong>

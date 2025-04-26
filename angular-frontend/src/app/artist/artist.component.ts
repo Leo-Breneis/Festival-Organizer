@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { ArtistService, Artist } from '../artists.service';
 import { Router } from '@angular/router';
@@ -14,8 +14,10 @@ export class ArtistComponent {
 
   constructor(private artistService: ArtistService, private router : Router) {}
 
-  getArtists(): Artist[] {
-    return this.artistService.getAllArtists();
+  artists = signal<Artist[]>([]); // List of all artists
+
+  ngOnInit(): void {
+    this.artists.set(this.artistService.getAllArtists());
   }
 
   goToArtistDetail(artistName: string): void {
@@ -26,5 +28,6 @@ export class ArtistComponent {
   toggleLike(artist: any, event: Event): void {
     event.stopPropagation(); // Prevent triggering the click on the parent div
     artist.liked = !artist.liked;
+    this.artistService.toggleLikeArtist(artist.name, artist.liked);
   }
 }
