@@ -5,7 +5,7 @@
     src="{{ isCollapsed ? 'icons/collapse.svg' : 'icons/expand.svg' }}"
   >
   @if(!isCollapsed) {
-  <div class="flex items-center justify-center p-2 pb-4 shadow-sm z-10">
+  <div class="flex items-center justify-center p-2 pb-4 shadow-lg z-10">
     <h1 class="text-2xl font-bold mt-2">Timetable</h1>
     <img
       class="right-3 z-50 h-8 w-8 top-3 absolute"
@@ -94,21 +94,20 @@
         [style.gridRow]="getStartRow(act) + ' / span ' + getRowSpan(act)"
         style="pointer-events: auto; z-index: 10;"
         (click)="goToActDetail(act.id)"
+        
         (touchstart)="startHold(act)"
         (touchend)="clearHold()"
-        (touchcancel)="clearHold()"
         (touchmove)="clearHold()"
         (mousedown)="startHold(act)"
         (mouseup)="clearHold()"
-        (mouseleave)="clearHold()"
       >
         @if (act.artist.img && picStillFits(act)) {
         <div
-          class="artist-image w-[100%] h-24 bg-cover bg-center felx-grow flex-shrink rounded-lg"
+          class="artist-image w-[100%] pointer-events-none h-24 bg-cover bg-center felx-grow flex-shrink rounded-lg"
           [style.backgroundImage]="'url(' + act.artist.img + ')'"
         ></div>
         }
-        <div class="m-1 felx">
+        <div class="m-1 felx pointer-events-none">
           <strong>{{ sliceText(act.artist.name, 0, 30) }}</strong>
           <br />
           <small>
@@ -135,7 +134,7 @@
             <div class="flex-shrink-0 flex -ml-2 first:ml-0">
               <img
                 [src]="friend.img"
-                class="h-6 w-6 rounded-full object-cover border-none felx flex-shrink-0"
+                class="h-6 w-6 rounded-full object-cover pointer-events-none border-none felx flex-shrink-0"
                 alt="Friend Image"
               />
             </div>
