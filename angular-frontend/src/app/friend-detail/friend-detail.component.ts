@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { Friend, FriendsService } from '../friends.service';
 import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-friend-detail',
   standalone: true,
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, RouterLink],
   templateUrl: './friend-detail.component.html',
   styleUrl: './friend-detail.component.css'
 })

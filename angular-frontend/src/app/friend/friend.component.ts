@@ -13,8 +13,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class FriendComponent {
 
-  isCollapsed: boolean = true;
+  isAddFriend: boolean = false; // Track the popup state
   newFriendName: string = '';
+  feedbackMessage: string = '';
 
   constructor(private friendsService : FriendsService, private router : Router) {}
 
@@ -40,12 +41,12 @@ export class FriendComponent {
 
   addFriend() {
     if (this.newFriendName.trim() !== '') {
-      this.friendsService.addFriend(this.newFriendName);
+      this.feedbackMessage = this.friendsService.addFriend(this.newFriendName);
       this.newFriendName = ''; // Clear the input field after adding
     }
   }
 
-  toggleCollapse(): void {
-    this.isCollapsed = !this.isCollapsed; // Toggle the collapsed state
+  toggleAddFriend(): void {
+    this.isAddFriend = !this.isAddFriend; // Toggle the collapsed state
   }
 }

@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Artist, ArtistService } from '../artists.service';
 import { NavbarComponent } from "../navbar/navbar.component";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-artist-detail',
   standalone: true,
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, RouterLink],
   templateUrl: './artist-detail.component.html',
   styleUrl: './artist-detail.component.css'
 })

@@ -5,7 +5,7 @@
     src="{{ isCollapsed ? 'icons/collapse.svg' : 'icons/expand.svg' }}"
   >
   @if(!isCollapsed) {
-  <div class="flex items-center justify-center p-2 pb-4 shadow-lg z-10">
+  <div class="flex items-center justify-center p-2 pb-3 shadow-lg z-10">
     <h1 class="text-2xl font-bold mt-2">Timetable</h1>
     <img
       class="right-3 z-50 h-8 w-8 top-3 absolute"
@@ -15,7 +15,7 @@
     @if(showInfo) {
     <p class="text-sm absolute top-12 bg-white p-2 rounded-lg shadow-md z-10 border w-[80%] right-2">
       <img src="icons/info.svg" class="h-4 w-4 inline-block mr-1" />
-      Um ein Event als "Ich gehe hin" zu markieren, halten. Um Details zu sehen, klicken.
+      Hold an event to mark it as "Going". Click to see details.
     </p>
     }
   </div>
@@ -102,13 +102,10 @@
         (mouseup)="clearHold()"
       >
         @if (act.artist.img && picStillFits(act)) {
-        <div class="p-1">
-        <img
-          [src]="act.artist.img"
-          class="artist-image pointer-events-none h-22 bg-cover bg-center felx-grow flex-shrink rounded-lg"
-          alt="Artist Image"
-        >
-        </div>
+        <div
+          class="artist-image w-[100%] pointer-events-none h-24 bg-cover bg-center felx-grow flex-shrink rounded-lg"
+          [style.backgroundImage]="'url(' + act.artist.img + ')'"
+        ></div>
         }
         <div class="m-1 felx pointer-events-none">
           <strong>{{ sliceText(act.artist.name, 0, 30) }}</strong>

@@ -1,78 +1,125 @@
 <div class="flex flex-col h-screen">
-    <div class="flex items-center justify-center p-2 pb-4 shadow-lg z-10 flex-shrink-0">
-      <h1 class="text-2xl font-bold mt-2">Friends</h1>
-    </div>
-    <img
-    class="left-3 z-50 h-8 w-8 top-3 absolute"
-    (click)="toggleCollapse()"
-    src="{{ isCollapsed ? 'icons/collapse.svg' : 'icons/expand.svg' }}"
+  <div
+    class="flex items-center justify-center p-2 pb-3 shadow-lg z-10 flex-shrink-0"
   >
-    @if(getRequests().length != 0 && !isCollapsed) {
-    <div class="flex flex-col items-center p-2 m-2 bg-pink-200 rounded-lg shadow-md border border-pink-300">
-      <div class="text-lg">Add Friend</div>
-      <div class="flex flex-row items-center p-3 m-2 bg-white rounded-lg shadow-md border border-gray-100 w-full">
-        <div class="flex flex-col flex-grow">
-          <input
-            type="text"
-            placeholder="Enter username"
-            class="border border-gray-300 rounded-lg p-2 w-full"
-            [(ngModel)]="newFriendName"
-            (keyup.enter)="addFriend()">
-        </div>
-        
-        <div class="flex flex-row flex-grow justify-end space-x-2 mr-2">
-          <img (click)="addFriend()" src="icons/add.svg" alt="Add" class="w-6 h-6 cursor-pointer">  
-        </div>
-      </div>
-      <div class="text-lg" >Friend Requests</div>
-      @for (request of getRequests(); track $index) {
-        <div class="flex flex-row items-center p-3 m-2 bg-white rounded-lg shadow-md border border-gray-100 w-full">
-          <img src="{{ request.img }}" alt="img" class="w-12 h-12 rounded-full mr-4 object-cover">
+    <h1 class="text-2xl font-bold mt-2">Friends</h1>
+  
+    <img
+      class="right-3 z-50 h-8 w-8 absolute"
+      (click)="toggleAddFriend()"
+      src="icons/addFriend.svg"
+    />
+  </div>
+
+  @if(isAddFriend) {
+    <div 
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+      (click)="toggleAddFriend()"
+    >
+      <div 
+        class="bg-white p-6 rounded-lg shadow-lg w-96 m-2"
+      >
+        <div class="text-lg font-bold mb-4">Add Friend</div>
+
+        <div
+          class="flex flex-row items-center p-3 bg-white rounded-lg shadow-md border border-gray-100 w-full"
+        >
           <div class="flex flex-col flex-grow">
-            <h2 class="text-lg font-bold">{{ request.name }}</h2>
+            <input
+              type="text"
+              placeholder="Enter username"
+              class="border border-gray-300 rounded-lg p-2 w-full"
+              [(ngModel)]="newFriendName"
+              (keyup.enter)="addFriend()"
+            />
           </div>
-          
-          <div class="flex flex-row flex-grow justify-end space-x-2 mr-2">
-            <img (click)="acceptFriendRequest(request)" src="icons/accept.svg" alt="Accept" class="w-6 h-6 cursor-pointer">
-            <img (click)="rejectFriendRequest(request)" src="icons/reject.svg" alt="Reject" class="w-6 h-6 cursor-pointer">  
+  
+          <div class="flex flex-row flex-grow justify-end space-x-2 ml-2">
+            <img
+              (click)="addFriend()"
+              src="icons/add.svg"
+              alt="Add"
+              class="w-6 h-6 cursor-pointer"
+            />
           </div>
         </div>
-      }
-      
+        <div class="pt-2">{{ feedbackMessage }}</div>
+      </div>
+    </div>
+  }
+
+  @if(getRequests().length != 0) {
+  <div
+    class="flex flex-col items-center p-2 m-2 bg-pink-200 rounded-lg shadow-md border border-pink-300"
+  >
+    <div class="text-lg">Friend Requests</div>
+    @for (request of getRequests(); track $index) {
+    <div
+      class="flex flex-row items-center p-3 m-2 bg-white rounded-lg shadow-md border border-gray-100 w-full"
+    >
+      <img
+        src="{{ request.img }}"
+        alt="img"
+        class="w-12 h-12 rounded-full mr-4 object-cover"
+      />
+      <div class="flex flex-col flex-grow">
+        <h2 class="text-lg font-bold">{{ request.name }}</h2>
+      </div>
+
+      <div class="flex flex-row flex-grow justify-end space-x-2 mr-2">
+        <img
+          (click)="acceptFriendRequest(request)"
+          src="icons/accept.svg"
+          alt="Accept"
+          class="w-6 h-6 cursor-pointer"
+        />
+        <img
+          (click)="rejectFriendRequest(request)"
+          src="icons/reject.svg"
+          alt="Reject"
+          class="w-6 h-6 cursor-pointer"
+        />
+      </div>
     </div>
     }
-
-    <div class="flex flex-col flex-grow overflow-y-auto relative pb-12">
-      @for (friend of getFriends(); track $index) {
-        <div 
-          class="flex flex-row items-center p-2 m-2 bg-pink-50 rounded-lg shadow-md border border-pink-100"
-          (click)="goToFriendDetail(friend.name)"  
-        >
-          <img src="{{ friend.img }}" alt="{{ friend.name }}" class="w-16 h-16 rounded-full mr-4">
-          
-          <div class="flex flex-col flex-grow">
-            <h2 class="text-lg font-bold">{{ friend.name }}</h2>
-            
-            @if(friend.commonArtists && friend.commonArtists.length > 0) {
-              <div
-                class="flex flex-row mt-2 relative overflow-x-auto scrollbar-hide flex-shrink-0"
-                style="justify-content: flex-start; align-items: center;"
-              >
-                @for(artist of friend.commonArtists; track $index) {
-                  <div class="flex-shrink-0 flex -ml-2 first:ml-0">
-                    <img
-                      [src]="artist.img"
-                      class="h-6 w-6 rounded-full object-cover border-none"
-                      alt="Friend Image"
-                      style="transform: translateZ(0); backface-visibility: hidden;"
-                    />
-                  </div>
-                }
-              </div>
-            }
-          </div>
-        </div>
-      }
-    </div>
-    <app-navbar class="fixed bottom-0 w-full h-12 flex-shrink-0"></app-navbar>
   </div>
+  }
+
+  <div class="flex flex-col flex-grow overflow-y-auto relative pb-12">
+    @for (friend of getFriends(); track $index) {
+    <div
+      class="flex flex-row items-center p-2 m-2 bg-pink-50 rounded-lg shadow-md border border-pink-100"
+      (click)="goToFriendDetail(friend.name)"
+    >
+      <img
+        src="{{ friend.img }}"
+        alt="{{ friend.name }}"
+        class="w-16 h-16 rounded-full mr-4"
+      />
+
+      <div class="flex flex-col flex-grow">
+        <h2 class="text-lg font-bold">{{ friend.name }}</h2>
+
+        @if(friend.commonArtists && friend.commonArtists.length > 0) {
+        <div
+          class="flex flex-row mt-2 relative overflow-x-auto scrollbar-hide flex-shrink-0"
+          style="justify-content: flex-start; align-items: center"
+        >
+          @for(artist of friend.commonArtists; track $index) {
+          <div class="flex-shrink-0 flex -ml-2 first:ml-0">
+            <img
+              [src]="artist.img"
+              class="h-6 w-6 rounded-full object-cover border-none"
+              alt="Friend Image"
+              style="transform: translateZ(0); backface-visibility: hidden"
+            />
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </div>
+    }
+  </div>
+  <app-navbar class="fixed bottom-0 w-full h-12 flex-shrink-0"></app-navbar>
+</div>
