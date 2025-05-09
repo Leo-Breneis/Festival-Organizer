@@ -85,4 +85,9 @@ export class FriendsService {
     console.log(`Added new friend: ${name}`);
     return 'Friend request sent successfully!';
   }
+
+  removeFriend(friend: Friend) {
+    // Logic to remove a friend
+    console.log(`Removed friend: ${friend.name}`);
+  }
 }

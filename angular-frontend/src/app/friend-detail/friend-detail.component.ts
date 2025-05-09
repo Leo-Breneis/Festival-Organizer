@@ -19,13 +19,20 @@ export class FriendDetailComponent {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')
     if(id) {
-      this.friend = this.getArtist(id)
+      this.friend = this.getFriend(id)
     } else {
       alert('missing pathparam id')
     }
   }
 
-  getArtist(id: string): Friend {
+  getFriend(id: string): Friend {
     return this.friendsService.getArtist(id);
+  }
+
+  removeFriend(friend : Friend | null) {
+    if (this.friend) {
+      this.friendsService.removeFriend(this.friend);
+      this.friend = null; // Clear the friend after removal
+    }
   }
 }

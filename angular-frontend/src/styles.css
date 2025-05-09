@@ -15,3 +15,16 @@
 .h-screen {
   height: calc(var(--vh, 1vh) * 100); /* Fallback to 1vh if --vh is not set */
 } /* this is important to set the height of the screen even on mobile devices! otherwise it wont "respect" the top or bottom bar*/
+
+.navbar {
+  height: 50px;
+}
+
+.ios-pwa .navbar {
+  padding-bottom: 20px; /* Increase padding for iOS PWA */
+  height: 90px; /* Adjust height as needed */
+}
+
+.ios-pwa .navbar-padding {
+  padding-bottom: 90px; /* Adjust padding for content */
+}
