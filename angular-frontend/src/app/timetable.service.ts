@@ -14,10 +14,7 @@ export type Act = {
 
 export type Day = {
   id: string;
-  month: string;
-  day: string;
-  weekday: string;
-  active: boolean;
+  date : Date;
 };
 
 export type Stage = {
@@ -29,9 +26,7 @@ export type Stage = {
   providedIn: 'root',
 })
 export class TimetableService {
-  getAllActs(day: Day): Stage[] {
-    if (day.id === 'tag-4') {
-      // Saturday, June 14
+  getAllActs(): Stage[] {
       return [
         {
           name: 'Red Stage',
@@ -270,10 +265,6 @@ export class TimetableService {
             },
           ],
         },
-      ];
-    } else if (day.id === 'tag-3') {
-      // Friday, June 13
-      return [
         {
           name: 'Red Stage',
           acts: [
@@ -485,10 +476,6 @@ export class TimetableService {
             },
           ],
         },
-      ];
-    } else if (day.id === 'tag-2') {
-      // Thursday, June 12
-      return [
         {
           name: 'Red Stage',
           acts: [
@@ -706,9 +693,6 @@ export class TimetableService {
             },
           ],
         },
-      ];
-    } else if (day.id === 'tag-1') {
-      return [
         {
           name: 'Red Bull Stage',
           acts: [
@@ -847,9 +831,6 @@ export class TimetableService {
           ],
         },
       ];
-    } else {
-      return [];
-    }
   }
 
   getAct(id: string): Act {
@@ -879,30 +860,22 @@ export class TimetableService {
     return [
       {
         id: 'tag-1',
-        month: 'June',
-        day: '11',
-        weekday: 'Wed',
+        date: new Date('2025-06-11'),
         active: true,
       },
       {
         id: 'tag-2',
-        month: 'June',
-        day: '12',
-        weekday: 'Thu',
+        date: new Date('2025-06-12'),
         active: false,
       },
       {
         id: 'tag-3',
-        month: 'June',
-        day: '13',
-        weekday: 'Fri',
+        date: new Date('2025-06-13'),
         active: false,
       },
       {
         id: 'tag-4',
-        month: 'June',
-        day: '14',
-        weekday: 'Sat',
+        date: new Date('2025-06-14'),
         active: false,
       },
     ];

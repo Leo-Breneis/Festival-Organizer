@@ -1,21 +1,31 @@
-import { ChangeDetectorRef, Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  inject,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { TimetableService, Act, Day, Stage } from '../timetable.service';
 import { Router } from '@angular/router';
-import { NavbarComponent } from "../navbar/navbar.component";
-
+import { NavbarComponent } from '../navbar/navbar.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-timetable',
   standalone: true,
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, DatePipe],
   templateUrl: './timetable.component.html',
-  styleUrls: ['./timetable.component.css']
+  styleUrls: ['./timetable.component.css'],
 })
 export class TimetableComponent {
   @ViewChild('timetableBody') timetableBody!: ElementRef<HTMLDivElement>;
 
   protected router = inject(Router);
-  constructor(private timetableService: TimetableService, private cdr : ChangeDetectorRef) {}
+  constructor(
+    private timetableService: TimetableService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   isCollapsed: boolean = false;
   showInfo: boolean = false;
@@ -23,35 +33,127 @@ export class TimetableComponent {
   currentTimePosition: number = 1;
   private intervalId: any;
 
-  days = signal<Day[]>([]); // List of all days
-  activeDay = signal<Day | null>(null); // Currently selected day
+  allActs: Act[] = [];
+  days = signal<Day[]>([]);
+  stages = signal<Stage[]>([]);
 
-  stages = signal<Stage[]>([]); // Define a signal for acts
+  intervalsPerHour = 12;
+  totalIntervals = 24 * this.intervalsPerHour;
+  selectedDayId: string = '';
 
   ngOnInit(): void {
-    this.days.set(this.timetableService.getAllDays());
-    this.activeDay.set(this.days().find((day) => day.active) || this.days()[0]); // Set the first active day by default
-    this.stages.set(this.timetableService.getAllActs(this.activeDay()!));
+    this.allActs = this.timetableService
+      .getAllActs()
+      .flatMap((stage) => stage.acts);
+    const days = this.extractDaysFromActs(this.allActs);
+    this.days.set(days);
+    this.stages.set(this.getMergedStages(this.allActs));
     this.updateCurrentTimeRow();
+    console.log(this.days().length + "<- days | intervals ->" + this.totalIntervals);
     this.intervalId = setInterval(() => {
       this.updateCurrentTimeRow();
-    }, 60000); // Update every minute
+    }, 60000);
+  }
+
+  getAllGridIntervals(): number[] {
+    return Array.from({ length: this.days().length * this.totalIntervals }, (_, i) => i);
   }
 
   ngAfterViewInit(): void {
     this.scrollToCurrentTime();
+    if (this.timetableBody) {
+      this.timetableBody.nativeElement.addEventListener('scroll', this.updateActiveDayOnScroll.bind(this));
+    }
   }
+
+updateActiveDayOnScroll(): void {
+  if (!this.timetableBody) return;
+  const container = this.timetableBody.nativeElement;
+  const scrollTop = container.scrollTop;
+  const dayHeight = this.totalIntervals * 10; // 10px per row
+  const dayIndex = Math.floor(scrollTop / dayHeight);
+  this.currentDayIndex = dayIndex;
+  this.cdr.detectChanges();
+}
+
+getCurrentDayIndex(): number {
+  return this.currentDayIndex;
+}
   
+  updateActiveDayOnScroll(): void {
+    if (!this.timetableBody) return;
+    const container = this.timetableBody.nativeElement;
+    const scrollTop = container.scrollTop;
+    const dayHeight = this.totalIntervals * 10; // 10px per row
+    const dayIndex = Math.floor(scrollTop / dayHeight);
+    const days = this.days();
+    days.forEach((d, i) => d. = i === dayIndex);
+    this.days.set([...days]);
+    this.cdr.detectChanges();
+  }
+
+  extractDaysFromActs(acts: Act[]): Day[] {
+    const dayMap = new Map<string, Day>();
+    acts.forEach((act) => {
+      const date = new Date(act.beginTime);
+      const dayKey = date.toISOString().split('T')[0];
+      if (!dayMap.has(dayKey)) {
+        dayMap.set(dayKey, {
+          id: dayKey,
+          date: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+        });
+      }
+    });
+    return Array.from(dayMap.values()).sort(
+      (a, b) => a.date.getTime() - b.date.getTime()
+    );
+  }
+
+  scrollToFirstEventOfDay(dayId: string): void {
+    // Find the first act for this day after 3 AM
+    const firstAct = this.allActs
+      .filter(act => {
+        const actDay = new Date(act.beginTime).toISOString().split('T')[0];
+        return actDay === dayId && act.beginTime.getHours() >= 3;
+      })
+      .sort((a, b) => a.beginTime.getTime() - b.beginTime.getTime())[0];
+  
+    if (firstAct && this.timetableBody) {
+      const dayIndex = this.days().findIndex(day => day.id === dayId);
+      const row = this.getStartRow(firstAct, dayIndex);
+      const scrollTop = (row - 1) * 10; // 10px per row
+      this.timetableBody.nativeElement.scrollTo({
+        top: scrollTop,
+        behavior: 'smooth'
+      });
+    }
+  }
+
   scrollToCurrentTime(): void {
     if (this.timetableBody) {
       const container = this.timetableBody.nativeElement;
-      const scrollPosition = this.currentTimePosition - container.clientHeight / 2 + 50; // Adjust the scroll position to center the current time row (60 is just an about fixxer for navbar and stuff)
-      console.log('Scroll Position:', scrollPosition); // Debugging
+      const scrollPosition =
+        this.currentTimePosition - container.clientHeight / 2 + 50;
       container.scrollTo({
         top: scrollPosition > 0 ? scrollPosition : 0,
-        behavior: 'smooth', // Smooth scrolling animation
+        behavior: 'smooth',
       });
     }
+  }
+
+  getMergedStages(acts: Act[]): Stage[] {
+    const stageMap = new Map<string, Stage>();
+    acts.forEach((act) => {
+      if (!stageMap.has(act.stage)) {
+        stageMap.set(act.stage, { name: act.stage, acts: [act] });
+      } else {
+        stageMap.get(act.stage)!.acts.push(act);
+      }
+    });
+    for (const stage of stageMap.values()) {
+      stage.acts.sort((a, b) => a.beginTime.getTime() - b.beginTime.getTime());
+    }
+    return Array.from(stageMap.values());
   }
 
   ngOnDestroy(): void {
@@ -60,66 +162,56 @@ export class TimetableComponent {
     }
   }
 
-  selectDay(id: string): void {
-    const updatedDays = this.days().map((day) => ({
-      ...day,
-      active: day.id === id,
-    }));
-    this.days.set(updatedDays);
-    this.activeDay.set(updatedDays.find((day) => day.id === id) || null);
-
-    // Update stages for the newly selected day
-    if (this.activeDay()) {
-      this.stages.set(this.timetableService.getAllActs(this.activeDay()!));
-
-      this.cdr.detectChanges();
-      this.scrollToCurrentTime();
-    }
-  }
-  
   private updateCurrentTimeRow(): void {
     const now = new Date();
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const totalMinutes = hours * 60 + minutes;
-  
-    // Each row represents 10 minutes, and each row is 10px tall
     this.currentTimePosition = (totalMinutes / 5) * 10;
-  
-    console.log('Current Time Position (px):', this.currentTimePosition); // Debugging
   }
-
-  getAllActs(day : Day): Stage[] {
-    return this.timetableService.getAllActs(day);
-  }
-
-  intervalsPerHour = 12;
-  totalIntervals = 24 * this.intervalsPerHour;
 
   getIntervals(): number[] {
     return Array.from({ length: this.totalIntervals }, (_, i) => i);
   }
 
-  getStartRow(act: Act): number {
+  getActsForStageAndDay(stage: Stage, dayId: string): Act[] {
+    return stage.acts.filter((act) => {
+      const actDay = new Date(act.beginTime).toISOString().split('T')[0];
+      return actDay === dayId;
+    });
+  }
+
+  getDayIndexForAct(act: Act): number {
+    const actDay = new Date(act.beginTime).toISOString().split('T')[0];
+    return this.days().findIndex(day => day.id === actDay);
+  }
+
+  getStartRow(act: Act, dayOffset: number): number {
     const hours = act.beginTime.getHours();
     const minutes = act.beginTime.getMinutes();
-    return hours * this.intervalsPerHour + Math.floor(minutes / 5) + 1;
+    return (
+      dayOffset * this.totalIntervals +
+      hours * this.intervalsPerHour +
+      Math.floor(minutes / 5) +
+      1
+    );
   }
 
   getRowSpan(act: Act): number {
-    const durationMinutes = (act.endTime.getTime() - act.beginTime.getTime()) / 60000;
+    const durationMinutes =
+      (act.endTime.getTime() - act.beginTime.getTime()) / 60000;
     return Math.ceil(durationMinutes / 5);
   }
 
   picStillFits(act: Act): boolean {
-    let totalRows = this.getRowSpan(act) / this.intervalsPerHour * 4; // Convert total rows to hours the to 15 mins
-    let usedRows = 2; // Assume the title and time use 3 rows (adjust as needed)
-    if(act.friends != null) {
-      usedRows += 2; 
+    let totalRows = (this.getRowSpan(act) / this.intervalsPerHour) * 4;
+    let usedRows = 2;
+    if (act.friends != null) {
+      usedRows += 2;
     }
-    return totalRows > usedRows; // Check if there's space left for the picture
+    return totalRows > usedRows;
   }
-  
+
   sliceText(text: string, start: number, end: number): string {
     return text.length > end ? text.slice(start, end) + '...' : text;
   }
@@ -131,67 +223,48 @@ export class TimetableComponent {
   startHold(act: Act): void {
     let initialX: number;
     let initialY: number;
-  
-    console.log('Hold action started:', act);
 
-    // Store the initial mouse position
     const onMouseMove = (event: MouseEvent) => {
       if (!initialX || !initialY) {
         initialX = event.clientX;
         initialY = event.clientY;
       }
-  
-      // Cancel the hold if the mouse moves significantly
-      if (Math.abs(event.clientX - initialX) > 5 || Math.abs(event.clientY - initialY) > 5) {
+      if (
+        Math.abs(event.clientX - initialX) > 5 ||
+        Math.abs(event.clientY - initialY) > 5
+      ) {
         this.clearHold();
         document.removeEventListener('mousemove', onMouseMove);
       }
     };
 
-    // Start the hold timer
     this.holdTimeout = setTimeout(() => {
       act.going = !act.going;
       this.timetableService.markAsGoing(act);
-      document.removeEventListener('mousemove', onMouseMove); // Remove the mousemove listener
-      console.log('Hold action triggered:', act);
-    }, 500); // 1 second hold duration
-  
-    // Add the mousemove listener
+      document.removeEventListener('mousemove', onMouseMove);
+    }, 500);
+
     document.addEventListener('mousemove', onMouseMove);
   }
-  
+
   clearHold(): void {
-    clearTimeout(this.holdTimeout); // Clear the timeout if the hold is released
-    document.removeEventListener('mousemove', () => {}); // Remove the mousemove listener
-    console.log('Hold action cancelled');
+    clearTimeout(this.holdTimeout);
+    document.removeEventListener('mousemove', () => {});
   }
 
   onMouseDown(event: MouseEvent, act: Act): void {
-    console.log('MouseDown Event:', event);
-    console.log('Act:', act);
+    // Optional: implement if needed
   }
 
   toggleCollapse(): void {
-    this.isCollapsed = !this.isCollapsed; // Toggle the collapsed state
+    this.isCollapsed = !this.isCollapsed;
   }
 
   toggleInfo(): void {
-    this.showInfo = !this.showInfo; // Toggle the visibility of the speech bubble
+    this.showInfo = !this.showInfo;
   }
 
   hasEvents(): boolean {
-    return this.stages().some(stage => stage.acts.length > 0);
+    return this.stages().some((stage) => stage.acts.length > 0);
   }
 }
-
-
-//todo ideas
-/*
-artist detail page
-  "show" detail page
-  at preview from a "show", max the pictures from friends to smh between 3 or 5, make them random,
-  or mabe dont even make a max, just show freinds one after another and make it y overflow so that the user can scroll the friends 
-  also the artist pfp should be at the top then a face into the title and below that there should be as said the freinds //? perhaps the time again so that you dont have to read it from the side?
-
-  look at how eros did authguard in ticket project
-*/
