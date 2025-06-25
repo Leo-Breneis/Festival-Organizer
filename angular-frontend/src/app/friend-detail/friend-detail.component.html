@@ -12,7 +12,7 @@
     <h1 class="text-2xl font-bold mt-2">Friend</h1>
   </div>
 
-  <div class="flex flex-col flex-grow overflow-y-auto relative navbar-padding">
+  <div class="flex flex-col flex-grow overflow-y-auto relative pb-12">
     @if(friend) {
     <div class="flex flex-col items-center m-4">
       <img
@@ -45,19 +45,7 @@
         }
       </div>
     </div>
-
-    <div
-      class="border rounded-md m-5 p-2 flex flex-row items-center bg-red-300 border-red-400"
-    >
-      <img
-        (click)="removeFriend(friend)"
-        src="icons/remove-friend.svg"
-        alt="Remove Friend"
-        class="w-8 h-8 cursor-pointer"
-      />
-      <div class="text-lg font-bold ml-2">remove friend</div>
-    </div>
     }
   </div>
-  <app-navbar class="navbar fixed bottom-0 w-full h-12 flex-shrink-0"></app-navbar>
+  <app-navbar class="fixed bottom-0 w-full h-12 flex-shrink-0"></app-navbar>
 </div>

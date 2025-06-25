@@ -1,4 +1,4 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -11,8 +11,6 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
   title = 'Festival-Frontend';
 
-  constructor(private renderer: Renderer2) {}
-
   private setViewportHeight = (): void => {
     const vh = window.innerHeight * 0.01; // Get 1% of the viewport height
     document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -21,13 +19,6 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.setViewportHeight();
-
-    const isPWA = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  
-    if (isPWA && isIOS) {
-      this.renderer.addClass(document.body, 'ios-pwa');
-    }
 
     // Update the height on window resize
     window.addEventListener('resize', this.setViewportHeight);
